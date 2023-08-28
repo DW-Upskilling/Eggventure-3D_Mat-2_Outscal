@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b078886b1d08d4f819ff4bb9ef6f4e, type: 3}
-  m_Name: EnemyBossScriptableObjectList
+  m_Script: {fileID: 11500000, guid: 374067e74d1915740bba4baa9b01a81f, type: 3}
+  m_Name: MiniBossEnemyScriptableObject
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 74464d8e274ade545ac842c3e968934e, type: 2}
+  characterType: 2
+  health: 0
+  enemyCharacterTypes: 2
+  enemyModes: 1

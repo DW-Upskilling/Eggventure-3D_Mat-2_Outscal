@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: PlayerScriptableObject
   m_EditorClassIdentifier: 
   characterType: 1
+  health: 100
+  energy: 100
+  healthRegeneration: 1
+  energyRegeneration: 100
+  playerPrefab: {fileID: 9125635869029861276, guid: 56c57d2d6ee4912459f9ee591b695b27, type: 3}

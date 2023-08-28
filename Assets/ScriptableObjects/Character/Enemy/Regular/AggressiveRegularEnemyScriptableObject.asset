@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9435f6fbb7817e46bfc34f70ce807ad, type: 3}
-  m_Name: EnemyBossScriptableObject
+  m_Script: {fileID: 11500000, guid: 374067e74d1915740bba4baa9b01a81f, type: 3}
+  m_Name: AggressiveRegularEnemyScriptableObject
   m_EditorClassIdentifier: 
   characterType: 2
+  health: 0
+  enemyCharacterTypes: 1
+  enemyModes: 1

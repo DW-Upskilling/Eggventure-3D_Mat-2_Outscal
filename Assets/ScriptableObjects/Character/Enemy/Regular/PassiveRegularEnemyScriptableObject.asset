@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a8506ded7b68847a4662cfb9102320, type: 3}
-  m_Name: EnemyScriptableObjectList
+  m_Script: {fileID: 11500000, guid: 374067e74d1915740bba4baa9b01a81f, type: 3}
+  m_Name: PassiveRegularEnemyScriptableObject
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 53a0ecfeaec807240a084d9e77cbc7c8, type: 2}
+  characterType: 2
+  health: 0
+  enemyCharacterTypes: 1
+  enemyModes: 3
