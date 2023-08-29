@@ -5,15 +5,32 @@ using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
-    public class CharacterModel<T, S> : Model<CharacterModel<T, S>> 
-        where T: CharacterView
-        where S: CharacterScriptableObject<T>
+    public class CharacterModel<T> : Model
+        where T: CharacterScriptableObject
     {
-        public S CharacterScriptableObject { get; private set; }
+        public T CharacterScriptableObject { get; private set; }
 
-        public CharacterModel(S characterScriptableObject)
+        public float Health { get; set; }
+        public float Energy { get; set; }
+        
+        public float HealthRegeneration { get; set; }
+        public float EnergyRegeneration { get; set; }
+
+        public float XAxisSenstivity { get; set; }
+        public float YAxisSenstivity { get; set; }
+
+        public CharacterModel(T characterScriptableObject)
         {
-            this.CharacterScriptableObject = characterScriptableObject;
+            CharacterScriptableObject = characterScriptableObject;
+
+            Health = characterScriptableObject.Health;
+            Energy = characterScriptableObject.Energy;
+
+            HealthRegeneration = characterScriptableObject.HealthRegeneration;
+            EnergyRegeneration = characterScriptableObject.EnergyRegeneration;
+
+            XAxisSenstivity = characterScriptableObject.XAxisSenstivity;
+            YAxisSenstivity = characterScriptableObject.YAxisSenstivity;
         }
     }
 }

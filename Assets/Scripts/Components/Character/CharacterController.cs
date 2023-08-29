@@ -5,25 +5,24 @@ using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
-    public abstract class CharacterController<T, S, V> : Controller<CharacterController<T, S, V>>
-        where T : CharacterView
-        where S : CharacterScriptableObject<T>
-        where V : CharacterModel<T, S>
+    public abstract class CharacterController<T, U, V> : Controller
+        where T: CharacterScriptableObject
+        where U : CharacterView
+        where V: CharacterModel<T>
     {
-        private S characterScriptableObject;
-        private V characterModel;
-        private T characterView;
+        protected V characterModel;
+        protected U characterView;
 
-        public CharacterController(S characterScriptableObject)
+        public CharacterController(T characterScriptableObject)
         {
-            this.characterScriptableObject = characterScriptableObject;
-
             characterModel = CreateCharacterModel(characterScriptableObject);
-            characterView = InstantiateCharacterView(characterScriptableObject.Prefab);
+            characterView = InstantiateCharacterView(characterScriptableObject);
         }
 
-        protected abstract V CreateCharacterModel(S characterScriptableObject);
-        protected abstract T InstantiateCharacterView(T characterPrefab);
+        public abstract void Start();
+        public abstract void SetActive(bool state);
 
+        protected abstract V CreateCharacterModel(T characterScriptableObject);
+        protected abstract U InstantiateCharacterView(T characterScriptableObject);
     }
 }

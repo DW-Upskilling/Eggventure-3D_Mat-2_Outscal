@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Utils;
+using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
+
 using Outscal.UnityAdvanced.Mat2.Components.Character;
 
 namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character
 {
-    public class CharacterScriptableObject<T> : ScriptableObject where T: CharacterView
+    public class CharacterScriptableObject : ScriptableObject
     {
         [SerializeField]
         private CharacterTypes characterType;
-        public CharacterTypes CharacterTypes { get { return characterType; } }
+        public CharacterTypes CharacterType { get { return characterType; } }
 
         [SerializeField]
         private float health = Constants.DefaultHealth;
@@ -36,9 +38,5 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character
         [SerializeField, Range(0f, 12f)]
         private float yAxisSenstivity = Constants.DefaultYAxisSenstivity;
         public float YAxisSenstivity { get { return yAxisSenstivity; } }
-
-        [SerializeField]
-        private T prefab;
-        public T Prefab { get { return prefab; } }
     }
 }

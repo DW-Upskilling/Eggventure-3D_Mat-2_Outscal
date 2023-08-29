@@ -8,15 +8,15 @@ using Outscal.UnityAdvanced.Mat2.Components.Character;
 namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy
 {
     [CreateAssetMenu(fileName = "EnemyScriptableObject", menuName = "ScriptableObjects/Character/Enemy/New")]
-    public class EnemyScriptableObject : CharacterScriptableObject<CharacterView>
+    public class EnemyScriptableObject : CharacterScriptableObject
     {
         [SerializeField]
-        private EnemyCharacterTypes enemyCharacterTypes;
-        public EnemyCharacterTypes EnemyCharacterTypes { get { return enemyCharacterTypes; } }
+        private EnemyCharacterTypes enemyCharacterType;
+        public EnemyCharacterTypes EnemyCharacterType { get { return enemyCharacterType; } }
 
         [SerializeField]
-        private EnemyModes enemyModes;
-        public EnemyModes EnemyModes { get { return enemyModes; } }
+        private EnemyModes enemyMode;
+        public EnemyModes EnemyMode { get { return enemyMode; } }
 
     }
 }
