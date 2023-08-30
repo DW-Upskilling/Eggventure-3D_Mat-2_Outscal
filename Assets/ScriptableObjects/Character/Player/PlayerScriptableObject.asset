@@ -20,5 +20,5 @@ MonoBehaviour:
   xAxisSenstivity: 3
   yAxisSenstivity: 3
   movementSpeed: 7
-  playerPrefab: {fileID: 9125635869029861276, guid: 56c57d2d6ee4912459f9ee591b695b27, type: 3}
+  playerPrefab: {fileID: 2567958172902410991, guid: 06fe4059740ec6442bb66158478ad7a5, type: 3}
   playerCameraMode: 1

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Components.Character.Enemy;
-using Outscal.UnityAdvanced.Mat2.Components.Character;
 
 namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy
 {
@@ -17,6 +14,10 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy
         [SerializeField]
         private EnemyModes enemyMode;
         public EnemyModes EnemyMode { get { return enemyMode; } }
+
+        [SerializeField]
+        private EnemyView enemyPrefab;
+        public EnemyView EnemyPrefab { get { return enemyPrefab; } }
 
     }
 }
