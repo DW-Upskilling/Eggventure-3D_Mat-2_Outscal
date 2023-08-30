@@ -12,5 +12,6 @@ namespace Outscal.UnityAdvanced.Mat2.Utils
 
         public static readonly float DefaultXAxisSenstivity = 1f;
         public static readonly float DefaultYAxisSenstivity = 1f;
+        public static readonly float DefaultMovementSpeed = 1f;
     }
 }

@@ -38,5 +38,9 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character
         [SerializeField, Range(0f, 12f)]
         private float yAxisSenstivity = Constants.DefaultYAxisSenstivity;
         public float YAxisSenstivity { get { return yAxisSenstivity; } }
+
+        [SerializeField, Range(0f, 7f)]
+        private float movementSpeed = Constants.DefaultMovementSpeed;
+        public float MovementSpeed { get { return movementSpeed; } }
     }
 }

@@ -10,8 +10,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
     {
         public Vector3 Position { set; get; }
         public Quaternion Rotation { set; get; }
+        public Vector3 Force { set; get; }
+        public ForceMode ForceMode { set; get; }
 
-        public bool isModified;
+        public bool usePosition, useRotation, useRigidBody;
 
         protected Rigidbody rb;
 
@@ -22,7 +24,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             Position = gameObject.transform.position;
             Rotation = gameObject.transform.rotation;
 
-            isModified = false;
+            usePosition = false;
+            useRotation = false;
+            useRigidBody = false;
         }
 
         protected virtual void Start()
@@ -36,20 +40,34 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         }
 
         protected virtual void LateUpdate() {
-            if (isModified)
+
+            Transform transform = gameObject.transform;
+            if (usePosition)
             {
-                Debug.Log(Position);
-
-                Transform transform = gameObject.transform;
-
                 Vector3 position = transform.position;
                 position.x += Position.x;
                 position.y += Position.y;
                 position.z += Position.z;
 
                 transform.position = position;
+                usePosition = false;
+            }
 
-                isModified = false;
+            if (useRotation)
+            {
+                Quaternion rotation = transform.rotation;
+                rotation.x += Rotation.x;
+                rotation.y += Rotation.y;
+                rotation.z += Rotation.z;
+
+                transform.rotation = rotation;
+                useRotation = false;
+            }
+
+            if (useRigidBody)
+            {
+                rb.AddForce(Force, ForceMode);
+                useRigidBody = false;
             }
         }
 

@@ -41,7 +41,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
                 return;
 
             base.Update();
-            playerController.HandlerUserInput();
+            playerController.HandleUserInput();
         }
 
         protected override void LateUpdate()

@@ -16,9 +16,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         public float HealthRegeneration { get; set; }
         public float EnergyRegeneration { get; set; }
 
-        public float XAxisSenstivity { get; set; }
-        public float YAxisSenstivity { get; set; }
-
         public CharacterModel(T characterScriptableObject)
         {
             CharacterScriptableObject = characterScriptableObject;
@@ -28,9 +25,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
             HealthRegeneration = characterScriptableObject.HealthRegeneration;
             EnergyRegeneration = characterScriptableObject.EnergyRegeneration;
-
-            XAxisSenstivity = characterScriptableObject.XAxisSenstivity;
-            YAxisSenstivity = characterScriptableObject.YAxisSenstivity;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             characterView.gameObject.SetActive(state);
         }
 
-        public void HandlerUserInput()
+        public void HandleUserInput()
         {
             handleMovement();
             handleRotation();
@@ -70,28 +70,30 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         private void handleMovement()
         {
             UserInputHandler userInputHandler = characterModel.UserInputHandler;
+            Transform playerDirectionTransform = characterView.PlayerDirectionTransform;
 
-            Vector3 position = Vector3.zero;
-            position.x = userInputHandler.horizontal * Time.deltaTime;
-            position.z = userInputHandler.vertical * Time.deltaTime;
+            Vector3 moveDirection = playerDirectionTransform.forward * userInputHandler.vertical + playerDirectionTransform.right * userInputHandler.horizontal;
 
-            characterView.Position = position;
-            characterView.isModified = true;
+            characterView.Force = moveDirection.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
+            characterView.ForceMode = ForceMode.Force;
+            characterView.useRigidBody = true;
         }
 
         private void handleRotation()
         {
             UserInputHandler userInputHandler = characterModel.UserInputHandler;
 
-            characterModel.xRotation += userInputHandler.mouseX * Time.deltaTime * characterModel.XAxisSenstivity;
+            characterModel.xRotation -= userInputHandler.mouseY * Time.deltaTime * characterModel.PlayerXSenstivity * characterModel.CharacterScriptableObject.XAxisSenstivity;
             characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
-            characterModel.yRotation += userInputHandler.mouseX * Time.deltaTime * characterModel.YAxisSenstivity;
+            characterModel.yRotation += userInputHandler.mouseX * Time.deltaTime * characterModel.PlayerYSenstivity * characterModel.CharacterScriptableObject.YAxisSenstivity;
 
             Camera mainCamera = characterModel.CameraContainerTransform.gameObject.GetComponentInChildren<Camera>();
             if (mainCamera != null)
-            {
                 mainCamera.transform.rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
-            }
+
+            Transform playerDirectionTransform = characterView.PlayerDirectionTransform;
+            if (playerDirectionTransform != null)
+                playerDirectionTransform.rotation = Quaternion.Euler(0, characterModel.yRotation, 0);
         }
 
         private void switchCameraView()

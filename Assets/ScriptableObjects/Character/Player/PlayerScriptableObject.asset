@@ -17,7 +17,8 @@ MonoBehaviour:
   energy: 100
   healthRegeneration: 1
   energyRegeneration: 100
-  xAxisSenstivity: 5
-  yAxisSenstivity: 5
+  xAxisSenstivity: 10
+  yAxisSenstivity: 10
+  movementSpeed: 5
   playerPrefab: {fileID: 9125635869029861276, guid: 56c57d2d6ee4912459f9ee591b695b27, type: 3}
   playerCameraMode: 1
