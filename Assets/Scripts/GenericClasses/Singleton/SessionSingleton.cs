@@ -1,8 +1,9 @@
 using UnityEngine;
 
-namespace Outscal.UnityAdvanced.Mat2.GenericClasses
+namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Singleton
 {
-    public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
+    // SessionSingleton is used when you wanted a object stay entirety of the gamesession
+    public abstract class SessionSingleton<T> : MonoBehaviour where T : SessionSingleton<T>
     {
         public T Instance { get; private set; }
 
