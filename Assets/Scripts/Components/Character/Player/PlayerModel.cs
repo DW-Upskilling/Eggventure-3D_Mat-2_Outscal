@@ -14,9 +14,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         public float PlayerXSenstivity { get; set; }
         public float PlayerYSenstivity { get; set; }
 
-        public float xRotation { get; set; }
-        public float yRotation { get; set; }
-
         public PlayerModel(PlayerScriptableObject playerScriptableObject): base(playerScriptableObject)
         {
             PlayerCameraMode = playerScriptableObject.PlayerCameraMode;

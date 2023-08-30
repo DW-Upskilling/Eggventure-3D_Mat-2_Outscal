@@ -15,10 +15,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         private Transform thirdPersonModeCameraTransform;
         public Transform ThirdPersonModeCameraTransform { get { return thirdPersonModeCameraTransform; } }
 
-        [SerializeField]
-        private Transform playerDirectionTransform;
-        public Transform PlayerDirectionTransform { get { return playerDirectionTransform; } }
-
         private PlayerController playerController;
 
         protected override void Awake()

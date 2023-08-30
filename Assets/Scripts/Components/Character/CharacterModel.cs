@@ -16,6 +16,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         public float HealthRegeneration { get; set; }
         public float EnergyRegeneration { get; set; }
 
+        public float xRotation { get; set; }
+        public float yRotation { get; set; }
+
         public CharacterModel(T characterScriptableObject)
         {
             CharacterScriptableObject = characterScriptableObject;

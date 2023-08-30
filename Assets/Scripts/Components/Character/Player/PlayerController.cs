@@ -26,8 +26,18 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
         public void HandleUserInput()
         {
-            handleMovement();
-            handleRotation();
+            UserInputHandler userInputHandler = characterModel.UserInputHandler;
+
+            movementHorizontal = userInputHandler.horizontal;
+            movementVertical = userInputHandler.vertical;
+
+            HandleMovement();
+            HandleMovementSpeed();
+
+            rotationHorizontal = userInputHandler.mouseY;
+            rotationVertical = userInputHandler.mouseX;
+
+            HandleRotation();
         }
 
         public void UpdateCameraPosition()
@@ -55,6 +65,17 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             return GameObject.Instantiate<PlayerView>(playerScriptableObject.PlayerPrefab, Vector3.zero, Quaternion.identity);
         }
 
+        protected override void HandleRotation()
+        {
+            base.HandleRotation();
+
+            Camera mainCamera = characterModel.CameraContainerTransform.gameObject.GetComponentInChildren<Camera>();
+            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
+
+            if (mainCamera != null && characterDirectionTransform != null)
+                mainCamera.transform.rotation = characterDirectionTransform.rotation;
+        }
+
         public Transform GetCameraTransform()
         {
             switch (characterModel.PlayerCameraMode)
@@ -65,35 +86,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
                     return characterView.ThirdPersonModeCameraTransform;
             }
             return null;
-        }
-
-        private void handleMovement()
-        {
-            UserInputHandler userInputHandler = characterModel.UserInputHandler;
-            Transform playerDirectionTransform = characterView.PlayerDirectionTransform;
-
-            Vector3 moveDirection = playerDirectionTransform.forward * userInputHandler.vertical + playerDirectionTransform.right * userInputHandler.horizontal;
-
-            characterView.Force = moveDirection.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
-            characterView.ForceMode = ForceMode.Force;
-            characterView.useRigidBody = true;
-        }
-
-        private void handleRotation()
-        {
-            UserInputHandler userInputHandler = characterModel.UserInputHandler;
-
-            characterModel.xRotation -= userInputHandler.mouseY * Time.deltaTime * characterModel.PlayerXSenstivity * characterModel.CharacterScriptableObject.XAxisSenstivity;
-            characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
-            characterModel.yRotation += userInputHandler.mouseX * Time.deltaTime * characterModel.PlayerYSenstivity * characterModel.CharacterScriptableObject.YAxisSenstivity;
-
-            Camera mainCamera = characterModel.CameraContainerTransform.gameObject.GetComponentInChildren<Camera>();
-            if (mainCamera != null)
-                mainCamera.transform.rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
-
-            Transform playerDirectionTransform = characterView.PlayerDirectionTransform;
-            if (playerDirectionTransform != null)
-                playerDirectionTransform.rotation = Quaternion.Euler(0, characterModel.yRotation, 0);
         }
 
         private void switchCameraView()

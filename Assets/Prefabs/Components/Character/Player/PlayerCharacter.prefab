@@ -142,10 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edff3e8857af7c1488df3776b8217306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isModified: 0
+  characterDirectionTransform: {fileID: 1967080704642165901}
   firstPersonModeCameraTransform: {fileID: 2082853536000674563}
   thirdPersonModeCameraTransform: {fileID: 4240129983697653345}
-  playerDirectionTransform: {fileID: 1967080704642165901}
 --- !u!54 &4767597181413971892
 Rigidbody:
   m_ObjectHideFlags: 0

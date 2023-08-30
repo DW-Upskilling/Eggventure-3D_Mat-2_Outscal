@@ -8,12 +8,20 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
     [RequireComponent(typeof(Rigidbody))]
     public class CharacterView : View
     {
+        [SerializeField]
+        private Transform characterDirectionTransform;
+        public Transform CharacterDirectionTransform { get { return characterDirectionTransform; } }
+
         public Vector3 Position { set; get; }
         public Quaternion Rotation { set; get; }
         public Vector3 Force { set; get; }
+        public Vector3 Velocity { get { return rb.velocity; } set { rb.velocity = value; } }
         public ForceMode ForceMode { set; get; }
 
-        public bool usePosition, useRotation, useRigidBody;
+
+        public bool usePosition { set; get; }
+        public bool useRotation { set; get; } 
+        public bool useRigidBody { set; get; }
 
         protected Rigidbody rb;
 
