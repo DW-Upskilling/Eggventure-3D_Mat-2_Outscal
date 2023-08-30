@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5922505490167062901
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247906, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037415901175247917, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_Name
+      value: MiniBossEnemyCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692561357396278758, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+--- !u!1 &8653639153270461784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3037415901175247917, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+  m_PrefabInstance: {fileID: 5922505490167062901}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2618627068475224905
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8653639153270461784}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6cb54d4223202d14e86a4beac6109c8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
