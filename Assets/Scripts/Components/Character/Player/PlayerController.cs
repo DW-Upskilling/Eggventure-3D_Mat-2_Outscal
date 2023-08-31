@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Handlers;
-using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
+using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Player;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
@@ -24,12 +24,22 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             characterView.gameObject.SetActive(state);
         }
 
+        public override void SetSpawner(SpawnManager spawnManager)
+        {
+            Transform spawnerTransform = spawnManager.gameObject.transform;
+
+            characterView.transform.SetPositionAndRotation(spawnerTransform.position, spawnerTransform.rotation);
+            characterView.transform.SetParent(spawnerTransform);
+        }
+
         public void HandleUserInput()
         {
             UserInputHandler userInputHandler = characterModel.UserInputHandler;
 
             movementHorizontal = userInputHandler.horizontal;
             movementVertical = userInputHandler.vertical;
+
+            movementSprint = userInputHandler.sprint;
 
             HandleMovement();
             HandleMovementSpeed();

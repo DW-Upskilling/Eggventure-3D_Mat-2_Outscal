@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
+namespace Outscal.UnityAdvanced.Mat2.Managers
 {
-    public class EnemySpawner : MonoBehaviour
+    public class SpawnManager : MonoBehaviour
     {
         public bool IsOccupied { get { return objectsEntry.Count > 0; } }
 

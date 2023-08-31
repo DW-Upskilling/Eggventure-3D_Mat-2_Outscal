@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 
@@ -15,6 +16,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         protected float movementHorizontal { get; set; }
         protected float movementVertical { get; set; }
+        protected float movementSprint { get; set; }
 
         protected float rotationHorizontal { get; set; }
         protected float rotationVertical { get; set; }
@@ -29,7 +31,14 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         {
             Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
 
-            Vector3 moveDirection = characterDirectionTransform.forward * movementVertical + characterDirectionTransform.right * movementHorizontal;
+            float speedMultiplier = 1f;
+            if (movementSprint != 0)
+                speedMultiplier += .5f;
+
+            Vector3 moveForwardDirection = characterDirectionTransform.forward * movementVertical * speedMultiplier;
+            Vector3 moveRightDirection = characterDirectionTransform.right * movementHorizontal * speedMultiplier;
+
+            Vector3 moveDirection = moveForwardDirection + moveRightDirection;
 
             characterView.Force = moveDirection.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
             characterView.ForceMode = ForceMode.Force;
@@ -41,7 +50,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             Vector3 currentVelocity = characterView.Velocity;
             Vector3 flatVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
 
-            if(flatVelocity.magnitude > characterModel.CharacterScriptableObject.MovementSpeed)
+            float maxSpeed = characterModel.CharacterScriptableObject.MovementSpeed;
+            if(movementSprint != 0)
+                maxSpeed += maxSpeed * 0.5f;
+
+            if (flatVelocity.magnitude > maxSpeed)
             {
                 Vector3 limitedVelocity = flatVelocity.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
                 characterView.Velocity = new Vector3(limitedVelocity.x, currentVelocity.y, limitedVelocity.z);
@@ -61,6 +74,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public abstract void Start();
         public abstract void SetActive(bool state);
+        public abstract void SetSpawner(SpawnManager spawnManager);
 
         protected abstract V CreateCharacterModel(T characterScriptableObject);
         protected abstract U InstantiateCharacterView(T characterScriptableObject);
