@@ -6,7 +6,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Singleton
     // Examples: Player/Enemy Spawner
     public abstract class SceneSingleton<T> : MonoBehaviour where T : SceneSingleton<T>
     {
-        public T Instance { get; private set; }
+        public static T Instance { get; private set; }
 
         private void Awake()
         {

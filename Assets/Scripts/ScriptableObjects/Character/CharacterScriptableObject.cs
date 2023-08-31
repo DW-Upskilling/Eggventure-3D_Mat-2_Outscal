@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Utils;
-using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
-
 using Outscal.UnityAdvanced.Mat2.Components.Character;
 
 namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character

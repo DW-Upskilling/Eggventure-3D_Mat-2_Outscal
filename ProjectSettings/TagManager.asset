@@ -26,17 +26,17 @@ TagManager:
   - 
   - 
   - 
+  - WhatIsCharacter
   - 
   - 
   - 
+  - WhatIsSpawner
   - 
   - 
+  - WhatIsWall
+  - WhatIsGround
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - WhatIsVoid
   m_SortingLayers:
   - name: Default
     uniqueID: 0

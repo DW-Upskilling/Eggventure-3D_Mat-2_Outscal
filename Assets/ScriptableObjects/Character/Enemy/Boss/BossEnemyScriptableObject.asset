@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 2
   health: 0
-  enemyCharacterTypes: 3
-  enemyModes: 1
+  energy: 100
+  healthRegeneration: 1
+  energyRegeneration: 1
+  xAxisSenstivity: 1
+  yAxisSenstivity: 1
+  movementSpeed: 1
+  enemyCharacterType: 3
+  enemyMode: 1
+  enemyPrefab: {fileID: 2208017302353175771, guid: 05535f5d715b7ec48a2e10e3706e478a, type: 3}

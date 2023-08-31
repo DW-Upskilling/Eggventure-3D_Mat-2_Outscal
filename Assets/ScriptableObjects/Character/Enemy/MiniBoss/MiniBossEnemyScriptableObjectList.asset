@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - {fileID: 11400000, guid: cd9500fe85a83664bbdd2c7b60f9428b, type: 2}
+  enemyCharacterType: 2

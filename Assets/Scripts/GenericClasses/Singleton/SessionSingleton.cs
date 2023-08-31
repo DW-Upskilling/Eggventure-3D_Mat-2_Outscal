@@ -5,7 +5,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Singleton
     // SessionSingleton is used when you wanted a object stay entirety of the gamesession
     public abstract class SessionSingleton<T> : MonoBehaviour where T : SessionSingleton<T>
     {
-        public T Instance { get; private set; }
+        public static T Instance { get; private set; }
 
         private void Awake()
         {
