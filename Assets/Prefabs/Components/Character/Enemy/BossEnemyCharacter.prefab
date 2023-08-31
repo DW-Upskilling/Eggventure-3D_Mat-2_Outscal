@@ -71,6 +71,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 4322941899361060890, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: m_Radius
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962200840124464048, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: stateMachine
+      value: 
+      objectReference: {fileID: 2618627068475224905}
+    - target: {fileID: 8358596883858993651, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: stateMachine
+      value: 
+      objectReference: {fileID: 2618627068475224905}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
 --- !u!1 &8653639153270461784 stripped
