@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaaf242f0e94cbb46b9dcd2c7da7dc35, type: 3}
-  m_Name: LevelScriptableObject1
+  m_Name: LevelScriptableObject6
   m_EditorClassIdentifier: 
   levelSequenceNumber: 1
   levelName: Level 1
@@ -19,6 +19,18 @@ MonoBehaviour:
     EnemyCharacterType: 1
     NumberOfEnemies: 10
     MaxEnemiesInScene: 5
+  - enemyScriptableObjectList: {fileID: 11400000, guid: 4beb28ec4e383d84f98bc318f795fe01, type: 2}
+    EnemyCharacterType: 2
+    NumberOfEnemies: 3
+    MaxEnemiesInScene: 1
+  - enemyScriptableObjectList: {fileID: 11400000, guid: 2d395289dce88df4fa4a344609b94fc2, type: 2}
+    EnemyCharacterType: 3
+    NumberOfEnemies: 1
+    MaxEnemiesInScene: 1
   enemiesToKillList:
   - EnemyCharacterType: 1
-    NumberOfEnemies: 8
+    NumberOfEnemies: 5
+  - EnemyCharacterType: 2
+    NumberOfEnemies: 3
+  - EnemyCharacterType: 3
+    NumberOfEnemies: 1

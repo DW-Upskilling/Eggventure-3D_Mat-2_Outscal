@@ -19,22 +19,35 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Level
         public string LevelName { get { return levelName; } }
 
         [SerializeField]
-        private List<EnemyScriptableObjectList> enemyScriptableObjectLists;
-        public List<EnemyScriptableObjectList> EnemyScriptableObjectLists { get { return enemyScriptableObjectLists; } }
+        private List<EnemiesToSpawn> enemiesToSpawnList;
+        public List<EnemiesToSpawn> EnemiesToSpawnList { get { return enemiesToSpawnList; } }
 
         [SerializeField]
-        private List<EnemiesToSpawn> enemiesToSpawn;
-        public List<EnemiesToSpawn> EnemiesToSpawn { get { return enemiesToSpawn; } }
+        private List<EnemiesToKill> enemiesToKillList;
+        public List<EnemiesToKill> EnemiesToKillList { get { return enemiesToKillList; } }
     }
 
     
     [Serializable]
     public class EnemiesToSpawn
     {
+
+        [SerializeField]
+        private EnemyScriptableObjectList enemyScriptableObjectList;
+        public EnemyScriptableObjectList EnemyScriptableObjectList { get { return enemyScriptableObjectList; } }
+
         public EnemyCharacterTypes EnemyCharacterType;
 
         public int NumberOfEnemies;
 
         public int MaxEnemiesInScene;
+    }
+
+    [Serializable]
+    public class EnemiesToKill
+    {
+        public EnemyCharacterTypes EnemyCharacterType;
+
+        public int NumberOfEnemies;
     }
 }

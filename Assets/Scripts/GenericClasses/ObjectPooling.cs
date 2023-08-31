@@ -7,20 +7,19 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses
 {
     public abstract class ObjectPooling<T>
     {
-        private List<PoolItem<T>> pool;
-        private int numberOfObjects;
+        protected List<PoolItem<T>> pool;
 
-        public ObjectPooling(int noOfObjects){
-            numberOfObjects = noOfObjects;
-
-            pool = new List<PoolItem<T>>(numberOfObjects);
+        public ObjectPooling(){
+            pool = new List<PoolItem<T>>();
         }
 
-        public T GetItem()
+        public virtual T GetItem()
         {
             PoolItem<T> poolItem = pool.Find(e => e.IsItemAvailable() && e.SetItemAvailablility(false));
-            if (poolItem == null)
-                return default(T);
+            if (poolItem == null) 
+                poolItem = createNewPoolItem();
+
+            poolItem.SetItemAvailablility(false);
             
             return poolItem.Item;
         }
@@ -32,6 +31,16 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses
             {
                 poolItem.SetItemAvailablility(true);
             }
+        }
+
+        protected abstract T CreateItem();
+
+        private PoolItem<T> createNewPoolItem()
+        {
+            PoolItem<T> poolItem = new PoolItem<T>(CreateItem());
+            pool.Add(poolItem);
+
+            return poolItem;
         }
     }
 

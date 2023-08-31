@@ -21,7 +21,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         public void SetController(EnemyController enemyController)
         {
             this.enemyController = enemyController;
-            this.enemyController.SetActive(true);
         }
     }
 }

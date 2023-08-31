@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Outscal.UnityAdvanced.Mat2.Managers;
-using Outscal.UnityAdvanced.Mat2.Handlers;
-using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
-
+using Outscal.UnityAdvanced.Mat2.Handlers;
+using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Level;
+using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
@@ -15,27 +15,26 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         [SerializeField]
         private List<EnemySpawner> enemySpawners;
 
-        [SerializeField]
-        private EnemyScriptableObjectList enemyScriptableObjectList;
+        private List<EnemiesPoolHandler> enemiesPool;
 
-        private EnemiesPoolHandler enemiesPoolHandler;
-
-        private int enemiesToSpawn;
         private int enemiesSpawned;
 
         protected override void Initialize()
         {
             if (enemySpawners == null || enemySpawners.Count == 0)
                 throw new UnassignedReferenceException("No spawners found");
-            if(enemyScriptableObjectList == null || enemyScriptableObjectList.Count == 0)
-                throw new UnassignedReferenceException("no enemies to spawn in the scene");
 
             LevelManager levelManager = LevelManager.Instance;
+            
+            enemiesPool = new List<EnemiesPoolHandler>();
+            foreach (EnemyCharacterTypes enemyCharacterType in levelManager.GetEnemyCharacterTypes())
+            {
+                EnemiesToSpawn enemiesToSpawn = levelManager.GetEnemiesToSpawn(enemyCharacterType);
+                EnemiesToKill enemiesToKill = levelManager.GetEnemiesToKill(enemyCharacterType);
 
-            enemiesToSpawn = levelManager.RegularEnemiesToSpawn;
-            enemiesSpawned = 0;
-
-            //enemiesPoolHandler = new EnemiesPoolHandler(levelManager.MaxEnemiesInTheScene);
+                if (enemiesToSpawn != null)
+                    enemiesPool.Add(new EnemiesPoolHandler(enemiesToSpawn, enemiesToKill));
+            }
         }
 
         protected override void Start()
@@ -52,16 +51,20 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             yield return new WaitForSeconds(1f);
 
-            while (enemiesSpawned < enemiesToSpawn)
+            while (enemiesSpawned < 10)
             {
                 EnemySpawner enemySpawner = GetRandomEnemySpawner();
                 if(enemySpawner != null) {
-                    EnemyScriptableObject enemyScriptableObject = GetRandomEnemyScriptableObject();
+                    EnemiesPoolHandler enemiesPoolHandler = GetRandomEnemyPool();
 
-                    if (enemyScriptableObject != null)
+                    if (enemiesPoolHandler != null)
                     {
-                        new EnemyController(enemyScriptableObject, enemySpawner.transform);
-                        enemiesSpawned++;
+                        EnemyController enemyController = enemiesPoolHandler.GetItem();
+                        if (enemyController != null)
+                        {
+                            enemyController.SetSpawner(enemySpawner);
+                            enemiesSpawned++;
+                        }
                     }
                 }
                 yield return new WaitForSeconds(3f);
@@ -80,10 +83,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             return availableEnemySpawners[index - 1];
         }
 
-        private EnemyScriptableObject GetRandomEnemyScriptableObject()
+        private EnemiesPoolHandler GetRandomEnemyPool()
         {
-            int index = Mathf.RoundToInt(Random.Range(1f, enemyScriptableObjectList.Count));
-            return enemyScriptableObjectList.GetByIndex(index-1);
+            int index = Mathf.RoundToInt(Random.Range(0f, enemiesPool.Count - 1));
+
+            return enemiesPool[index];
         }
     }
 }

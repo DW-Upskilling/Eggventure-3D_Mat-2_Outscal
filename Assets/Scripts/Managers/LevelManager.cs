@@ -16,6 +16,7 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
         private LevelScriptableObject levelScriptableObject;
 
         public int TotalEnemiesToSpawn { get; private set; }
+        public int TotalEnemiesToKill { get; private set; }
 
         protected override void Initialize()
         {
@@ -32,19 +33,31 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
         {
             List<EnemyCharacterTypes> EnemyCharacterTypesList = new List<EnemyCharacterTypes>();
 
-            levelScriptableObject.EnemiesToSpawn.ForEach(e => EnemyCharacterTypesList.Add(e.EnemyCharacterType));
+            List<EnemiesToSpawn> enemiesToSpawnList = levelScriptableObject.EnemiesToSpawnList;
+            enemiesToSpawnList = enemiesToSpawnList.FindAll(e => e.NumberOfEnemies > 0 && e.MaxEnemiesInScene > 0 && e.EnemyCharacterType == e.EnemyScriptableObjectList.EnemyCharacterType);
+            enemiesToSpawnList.ForEach(e => EnemyCharacterTypesList.Add(e.EnemyCharacterType));
 
             return EnemyCharacterTypesList.ToArray();
         }
 
-        public EnemyScriptableObjectList GetEnemyScriptableObjectList(EnemyCharacterTypes enemyCharacterType)
+        public EnemyCharacterTypes GetRandomEnemyCharacterType()
         {
-            return levelScriptableObject.EnemyScriptableObjectLists.Find(e => e.EnemyCharacterType == enemyCharacterType);
+            EnemyCharacterTypes[] EnemyCharacterTypesArray = GetEnemyCharacterTypes();
+            if (EnemyCharacterTypesArray.Length < 1)
+                return EnemyCharacterTypes.None;
+
+            int index = Mathf.RoundToInt(Random.Range(0f, EnemyCharacterTypesArray.Length-1));
+            return EnemyCharacterTypesArray[index];
         }
 
         public EnemiesToSpawn GetEnemiesToSpawn(EnemyCharacterTypes enemyCharacterType)
         {
-            return levelScriptableObject.EnemiesToSpawn.Find(e => e.EnemyCharacterType == enemyCharacterType);
+            return levelScriptableObject.EnemiesToSpawnList.Find(e => e.EnemyCharacterType == enemyCharacterType);
+        }
+
+        public EnemiesToKill GetEnemiesToKill(EnemyCharacterTypes enemyCharacterType)
+        {
+            return levelScriptableObject.EnemiesToKillList.Find(e => e.EnemyCharacterType == enemyCharacterType);
         }
     }
 }
