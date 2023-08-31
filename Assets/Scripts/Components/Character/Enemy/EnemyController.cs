@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
+
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
@@ -13,9 +15,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             characterView.SetController(this);
         }
 
-        public void SetSpawner(EnemySpawner enemySpawner)
+        public override void SetSpawner(SpawnManager spawnManager)
         {
-            Transform spawnerTransform = enemySpawner.gameObject.transform;
+            Transform spawnerTransform = spawnManager.gameObject.transform;
 
             characterView.transform.SetPositionAndRotation(spawnerTransform.position, spawnerTransform.rotation);
             characterView.transform.SetParent(spawnerTransform);

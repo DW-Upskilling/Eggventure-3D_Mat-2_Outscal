@@ -6,14 +6,13 @@ using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Level;
-using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyService : Service<EnemyService>
     {
         [SerializeField]
-        private List<EnemySpawner> enemySpawners;
+        private List<SpawnManager> spawnManagers;
 
         private List<EnemiesPoolHandler> enemiesPool;
 
@@ -21,7 +20,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 
         protected override void Initialize()
         {
-            if (enemySpawners == null || enemySpawners.Count == 0)
+            if (spawnManagers == null || spawnManagers.Count == 0)
                 throw new UnassignedReferenceException("No spawners found");
 
             LevelManager levelManager = LevelManager.Instance;
@@ -53,8 +52,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 
             while (enemiesSpawned < 10)
             {
-                EnemySpawner enemySpawner = GetRandomEnemySpawner();
-                if(enemySpawner != null) {
+                SpawnManager spawnManager = GetRandomSpawnManager();
+                if(spawnManager != null) {
                     EnemiesPoolHandler enemiesPoolHandler = GetRandomEnemyPool();
 
                     if (enemiesPoolHandler != null)
@@ -62,7 +61,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
                         EnemyController enemyController = enemiesPoolHandler.GetItem();
                         if (enemyController != null)
                         {
-                            enemyController.SetSpawner(enemySpawner);
+                            enemyController.SetSpawner(spawnManager);
                             enemiesSpawned++;
                         }
                     }
@@ -73,14 +72,14 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             yield return null;
         }
 
-        private EnemySpawner GetRandomEnemySpawner()
+        private SpawnManager GetRandomSpawnManager()
         {
-            List<EnemySpawner> availableEnemySpawners = enemySpawners.FindAll(e => e.IsOccupied == false);
-            if (availableEnemySpawners.Count < 1)
+            List<SpawnManager> availableSpawners = spawnManagers.FindAll(e => e.IsOccupied == false);
+            if (availableSpawners.Count < 1)
                 return null;
 
-            int index = Mathf.RoundToInt(Random.Range(1f, availableEnemySpawners.Count));
-            return availableEnemySpawners[index - 1];
+            int index = Mathf.RoundToInt(Random.Range(1f, availableSpawners.Count));
+            return availableSpawners[index - 1];
         }
 
         private EnemiesPoolHandler GetRandomEnemyPool()

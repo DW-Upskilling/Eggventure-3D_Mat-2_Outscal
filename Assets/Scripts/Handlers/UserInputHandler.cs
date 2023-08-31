@@ -14,6 +14,8 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
         public float horizontal { get; private set; }
         public float vertical { get; private set; }
 
+        public float sprint { get; private set; }
+
         public UserInputHandler()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -27,6 +29,8 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
 
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
+
+            sprint = Input.GetAxis("Sprint");
         }
     }
 }
