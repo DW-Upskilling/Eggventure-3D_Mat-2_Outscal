@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
-using Outscal.UnityAdvanced.Mat2.Managers;
+
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
@@ -16,6 +18,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         [SerializeField]
         private EnemyScriptableObjectList enemyScriptableObjectList;
 
+        private EnemiesPoolHandler enemiesPoolHandler;
+
         private int enemiesToSpawn;
         private int enemiesSpawned;
 
@@ -26,8 +30,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             if(enemyScriptableObjectList == null || enemyScriptableObjectList.Count == 0)
                 throw new UnassignedReferenceException("no enemies to spawn in the scene");
 
-            enemiesToSpawn = LevelManager.Instance.EnemiesToSpawn;
+            LevelManager levelManager = LevelManager.Instance;
+
+            enemiesToSpawn = levelManager.RegularEnemiesToSpawn;
             enemiesSpawned = 0;
+
+            //enemiesPoolHandler = new EnemiesPoolHandler(levelManager.MaxEnemiesInTheScene);
         }
 
         protected override void Start()

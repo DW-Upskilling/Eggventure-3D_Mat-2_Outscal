@@ -14,4 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSequenceNumber: 1
   levelName: Level 1
-  enemiesToSpawn: 10
+  enemyScriptableObjectLists:
+  - {fileID: 11400000, guid: 2d395289dce88df4fa4a344609b94fc2, type: 2}
+  - {fileID: 11400000, guid: 4beb28ec4e383d84f98bc318f795fe01, type: 2}
+  - {fileID: 11400000, guid: 684b1a57b22a6d848be15d62294597a2, type: 2}
+  regularEnemiesToSpawn: 10
+  miniBossEnemiesToSpawn: 0
+  bossEnemiesToSpawn: 0

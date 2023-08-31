@@ -8,10 +8,6 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy
     public class EnemyScriptableObject : CharacterScriptableObject
     {
         [SerializeField]
-        private EnemyCharacterTypes enemyCharacterType;
-        public EnemyCharacterTypes EnemyCharacterType { get { return enemyCharacterType; } }
-
-        [SerializeField]
         private EnemyModes enemyMode;
         public EnemyModes EnemyMode { get { return enemyMode; } }
 
