@@ -21,42 +21,59 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         protected float rotationHorizontal { get; set; }
         protected float rotationVertical { get; set; }
 
+        public float MovementSpeed { get { return characterModel.CharacterScriptableObject.MovementSpeed; } }
+
         public CharacterController(T characterScriptableObject)
         {
             characterModel = CreateCharacterModel(characterScriptableObject);
             characterView = InstantiateCharacterView(characterScriptableObject);
         }
 
-        protected virtual void HandleMovement()
+        public virtual void Move()
         {
             Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
 
+            Vector3 moveForwardDirection = characterDirectionTransform.forward * movementVertical;
+            Vector3 moveRightDirection = characterDirectionTransform.right * movementHorizontal;
+
+            Vector3 moveDirection = moveForwardDirection + moveRightDirection;
+
+            HandleMovement(moveDirection);
+            HandleMovementSpeed();
+        }
+
+        public virtual void Move(Vector3 moveDirection)
+        {
+            HandleMovement(moveDirection);
+            HandleMovementSpeed();
+        }
+
+        private void HandleMovement(Vector3 moveDirection)
+        {
             float speedMultiplier = 1f;
             if (movementSprint != 0)
                 speedMultiplier += .5f;
 
-            Vector3 moveForwardDirection = characterDirectionTransform.forward * movementVertical * speedMultiplier;
-            Vector3 moveRightDirection = characterDirectionTransform.right * movementHorizontal * speedMultiplier;
+            moveDirection *= speedMultiplier;
+            moveDirection.y = 0f;
 
-            Vector3 moveDirection = moveForwardDirection + moveRightDirection;
-
-            characterView.Force = moveDirection.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
+            characterView.Force = moveDirection.normalized * MovementSpeed;
             characterView.ForceMode = ForceMode.Force;
             characterView.useRigidBody = true;
         }
 
-        protected virtual void HandleMovementSpeed()
+        private void HandleMovementSpeed()
         {
             Vector3 currentVelocity = characterView.Velocity;
             Vector3 flatVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
 
-            float maxSpeed = characterModel.CharacterScriptableObject.MovementSpeed;
+            float maxSpeed = MovementSpeed;
             if(movementSprint != 0)
                 maxSpeed += maxSpeed * 0.5f;
 
             if (flatVelocity.magnitude > maxSpeed)
             {
-                Vector3 limitedVelocity = flatVelocity.normalized * characterModel.CharacterScriptableObject.MovementSpeed;
+                Vector3 limitedVelocity = flatVelocity.normalized * MovementSpeed;
                 characterView.Velocity = new Vector3(limitedVelocity.x, currentVelocity.y, limitedVelocity.z);
             }
         }

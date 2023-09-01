@@ -15,7 +15,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         [SerializeField]
         private EnemyPointOfView enemyPointOfView;
 
-        GameObject referenceGameObject;
+        public GameObject ColliderGameObject { get; set; }
 
         private int chaseId;
         private float cooldown;
@@ -38,10 +38,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             PlayerView playerView = collider.gameObject.GetComponent<PlayerView>();
             if(playerView != null && cooldown <= 0)
             {
+                ColliderGameObject = collider.gameObject;
+
                 stateMachine.SetTrigger(chaseId);
                 enemyPointOfView.gameObject.SetActive(true);
-
-                referenceGameObject = collider.gameObject;
 
                 cooldown = Constants.DefaultStateCooldown;
             }
@@ -49,7 +49,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 
         private void OnTriggerExit(Collider collider)
         {
-            if (collider.gameObject.Equals(referenceGameObject))
+            if (collider.gameObject.Equals(ColliderGameObject))
             {
                 enemyPointOfView.gameObject.SetActive(false);
 

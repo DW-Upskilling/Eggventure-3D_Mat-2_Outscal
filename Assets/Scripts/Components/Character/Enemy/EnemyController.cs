@@ -14,6 +14,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             characterView.SetController(this);
         }
+        public void SetRandomMovement()
+        {
+            movementHorizontal = UnityEngine.Random.Range(-1, 1);
+            movementVertical = UnityEngine.Random.Range(-1, 1);
+            movementSprint = UnityEngine.Random.Range(-1, 1);
+        }
 
         public override void SetSpawner(SpawnManager spawnManager)
         {

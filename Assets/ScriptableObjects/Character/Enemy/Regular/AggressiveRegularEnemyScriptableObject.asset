@@ -19,7 +19,6 @@ MonoBehaviour:
   energyRegeneration: 1
   xAxisSenstivity: 6
   yAxisSenstivity: 6
-  movementSpeed: 2
-  enemyCharacterType: 1
+  movementSpeed: 5
   enemyMode: 1
   enemyPrefab: {fileID: 2208017302353175771, guid: 82bc0381823843c4aa705de38954cc29, type: 3}
