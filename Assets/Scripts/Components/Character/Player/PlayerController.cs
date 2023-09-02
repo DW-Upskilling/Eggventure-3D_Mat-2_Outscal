@@ -41,8 +41,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
             movementSprint = userInputHandler.sprint;
 
-            HandleMovement();
-            HandleMovementSpeed();
+            Move();
 
             rotationHorizontal = userInputHandler.mouseY;
             rotationVertical = userInputHandler.mouseX;

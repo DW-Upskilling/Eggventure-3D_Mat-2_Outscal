@@ -14,6 +14,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             characterView.SetController(this);
         }
+        public void SetRandomMovement()
+        {
+            movementHorizontal = UnityEngine.Random.Range(-1, 1);
+            movementVertical = UnityEngine.Random.Range(-1, 1);
+            movementSprint = UnityEngine.Random.Range(-1, 1);
+        }
 
         public override void SetSpawner(SpawnManager spawnManager)
         {
@@ -31,6 +37,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         public override void SetActive(bool state)
         {
             characterView.gameObject.SetActive(state);
+        }
+
+        protected override void HandleRotation()
+        {
+            
         }
 
         protected override EnemyModel CreateCharacterModel(EnemyScriptableObject enemyScriptableObject)

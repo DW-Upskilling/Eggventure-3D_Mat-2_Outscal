@@ -22,5 +22,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             this.enemyController = enemyController;
         }
+
+        public EnemyController GetEnemyController()
+        {
+            return enemyController;
+        }
     }
 }

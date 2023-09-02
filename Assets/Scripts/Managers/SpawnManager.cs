@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Components.Character;
+
 namespace Outscal.UnityAdvanced.Mat2.Managers
 {
     public class SpawnManager : MonoBehaviour
@@ -16,12 +18,16 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
 
         private void OnTriggerStay(Collider other)
         {
-            objectsEntry.Add(other);
+            CharacterView characterView = other.gameObject.GetComponent<CharacterView>();
+            if (characterView != null)
+                objectsEntry.Add(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            objectsEntry.Remove(other);
+            CharacterView characterView = other.gameObject.GetComponent<CharacterView>();
+            if (characterView != null)
+                objectsEntry.Remove(other);
         }
     }
 }

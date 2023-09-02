@@ -2,35 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPatrolBehaviour : StateMachineBehaviour
+using Outscal.UnityAdvanced.Mat2.Utils;
+
+namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy.EnemyBehaviour
 {
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    public class EnemyPatrolBehaviour : StateMachineBehaviour
+    {
+        private EnemyController enemyController;
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+        private float timeInterval;
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+        private int patrolId;
 
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
+        private float movementInterval;
 
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
+        // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+        override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
+
+            enemyController = animator.gameObject.GetComponent<EnemyView>().GetEnemyController();
+            movementInterval = Random.Range(Constants.DefaultMinStateCooldown, Constants.DefaultMaxStateCooldown);
+
+            timeInterval = Random.Range(Constants.DefaultMinStateCooldown, Constants.DefaultMaxStateCooldown);
+            patrolId = Animator.StringToHash("Patrol");
+        }
+
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            
+            movementInterval -= Time.deltaTime;
+
+            if (movementInterval <= 0)
+            {
+                enemyController.SetRandomMovement();
+                movementInterval = Random.Range(Constants.DefaultMinStateCooldown, Constants.DefaultMaxStateCooldown);
+            }
+
+            enemyController.Move();
+
+            timeInterval -= Time.deltaTime;
+            if (timeInterval <= 0)
+            {
+                animator.SetBool(patrolId, false);
+            }
+        }
+
+        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
+        }
+    }
 }

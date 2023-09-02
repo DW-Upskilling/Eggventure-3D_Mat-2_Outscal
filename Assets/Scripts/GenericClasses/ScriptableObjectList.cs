@@ -8,7 +8,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses
     public abstract class ScriptableObjectList<T> : ScriptableObject where T: ScriptableObject
     {
         [SerializeField]
-        List<T> items;
+        private List<T> items;
         
         public int Count { get { return items.Count; } }
         public T GetByIndex(int index)
