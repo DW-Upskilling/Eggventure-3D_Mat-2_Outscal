@@ -39,6 +39,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             characterView.gameObject.SetActive(state);
         }
 
+        protected override void HandleRotation()
+        {
+            
+        }
+
         protected override EnemyModel CreateCharacterModel(EnemyScriptableObject enemyScriptableObject)
         {
             return new EnemyModel(enemyScriptableObject);
