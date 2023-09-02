@@ -47,6 +47,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             rotationVertical = userInputHandler.mouseX;
 
             HandleRotation();
+
+            Debug.Log(userInputHandler.mouseLeftClickDown);
+            if (userInputHandler.mouseLeftClickDown)
+                ActivateLaser();
+            else if (userInputHandler.mouseLeftClickUp)
+                DeactivateLaser();
         }
 
         public void UpdateCameraPosition()

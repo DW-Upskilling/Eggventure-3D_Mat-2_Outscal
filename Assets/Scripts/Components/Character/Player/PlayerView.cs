@@ -49,6 +49,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             playerController.UpdateCameraPosition();
         }
 
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+        }
+
         public void SetController(PlayerController playerController)
         {
             this.playerController = playerController;

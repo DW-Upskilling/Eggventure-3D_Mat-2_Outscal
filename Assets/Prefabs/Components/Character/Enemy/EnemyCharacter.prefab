@@ -169,9 +169,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7468618399486681349, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3983980497082493714, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+--- !u!198 &1348659466890488016 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1278136237210406631, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 219476271099455031}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1749584665896422074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1967080704642165901, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
@@ -200,3 +209,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterDirectionTransform: {fileID: 1749584665896422074}
+  muzzlePointTransform: {fileID: 7254841999601895218}
+  muzzlePointParticlesStart: {fileID: 5802271947878078241}
+  muzzlePointParticlesEnd: {fileID: 1348659466890488016}
+--- !u!198 &5802271947878078241 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6020876303874273558, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 219476271099455031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7254841999601895218 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7468618399486681349, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 219476271099455031}
+  m_PrefabAsset: {fileID: 0}

@@ -69,6 +69,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1945252768630076197, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2966936651087925781, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -117,6 +121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 7468618399486681349, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3983980497082493714, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
@@ -143,10 +151,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterDirectionTransform: {fileID: 2317856663670725695}
+  muzzlePointTransform: {fileID: 6684199454724886967}
+  muzzlePointParticlesStart: {fileID: 7559472540370534820}
+  muzzlePointParticlesEnd: {fileID: 3087794799904702037}
   firstPersonModeCameraTransform: {fileID: 2206015546614651196}
   thirdPersonModeCameraTransform: {fileID: 6995867748277455660}
 --- !u!4 &2317856663670725695 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1967080704642165901, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 4280345030228783282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3087794799904702037 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1278136237210406631, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 4280345030228783282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6684199454724886967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7468618399486681349, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
+  m_PrefabInstance: {fileID: 4280345030228783282}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7559472540370534820 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6020876303874273558, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}
   m_PrefabInstance: {fileID: 4280345030228783282}
   m_PrefabAsset: {fileID: 0}

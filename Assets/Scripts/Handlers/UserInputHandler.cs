@@ -10,7 +10,10 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
     {
         public float mouseX { get; private set; } 
         public float mouseY { get; private set; }
-        
+
+        public bool mouseLeftClickDown { get; private set; }
+        public bool mouseLeftClickUp { get; private set; }
+
         public float horizontal { get; private set; }
         public float vertical { get; private set; }
 
@@ -26,6 +29,9 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
         {
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");
+
+            mouseLeftClickDown = Input.GetMouseButtonDown(0);
+            mouseLeftClickUp = Input.GetMouseButtonUp(0);
 
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");

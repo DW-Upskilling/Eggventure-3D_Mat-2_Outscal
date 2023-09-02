@@ -4,9 +4,11 @@ using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 
+using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
+
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
-    public abstract class CharacterController<T, U, V> : Controller
+    public abstract class CharacterController<T, U, V> : Controller, Damageable, Vandalizer
         where T: CharacterScriptableObject
         where U : CharacterView
         where V: CharacterModel<T>
@@ -23,16 +25,47 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public float MovementSpeed { get { return characterModel.CharacterScriptableObject.MovementSpeed; } }
 
+        private Transform characterDirectionTransform;
+        private Transform muzzlePointTransform;
+
+        private LineRenderer laserBeam;
+
+        private ParticleSystem muzzlePointParticlesStart;
+        private ParticleSystem muzzlePointParticlesEnd;
+
         public CharacterController(T characterScriptableObject)
         {
             characterModel = CreateCharacterModel(characterScriptableObject);
             characterView = InstantiateCharacterView(characterScriptableObject);
+
+            characterDirectionTransform = characterView.CharacterDirectionTransform;
+            muzzlePointTransform = characterView.MuzzlePointTransform;
+
+            laserBeam = characterDirectionTransform.GetComponent<LineRenderer>();
+            laserBeam.enabled = false;
+
+            muzzlePointParticlesStart = characterView.MuzzlePointParticlesStart;
+            muzzlePointParticlesEnd = characterView.MuzzlePointParticlesEnd;
+        }
+
+        public void TakeDamage(Vandalizer vandalizer)
+        {
+            float damage = vandalizer.GetDamage();
+            characterModel.Health -= damage;
+        }
+
+        public void DoDamage(Damageable damageable)
+        {
+            damageable.TakeDamage((Vandalizer)this);
+        }
+
+        public float GetDamage()
+        {
+            return 0f;
         }
 
         public virtual void Move()
         {
-            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
-
             Vector3 moveForwardDirection = characterDirectionTransform.forward * movementVertical;
             Vector3 moveRightDirection = characterDirectionTransform.right * movementHorizontal;
 
@@ -46,6 +79,36 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         {
             HandleMovement(moveDirection);
             HandleMovementSpeed();
+        }
+
+        protected virtual void HandleRotation()
+        {
+            characterModel.xRotation -= rotationHorizontal * characterModel.CharacterScriptableObject.XAxisSenstivity;
+            characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
+            characterModel.yRotation += rotationVertical * characterModel.CharacterScriptableObject.YAxisSenstivity;
+
+            Quaternion rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
+            characterDirectionTransform.rotation = rotation;
+            muzzlePointTransform.rotation = rotation;
+        }
+
+        protected void ActivateLaser()
+        {
+            Debug.Log("ActivateLaser");
+            laserBeam.enabled = true;
+
+            muzzlePointParticlesStart.Play();
+            muzzlePointParticlesEnd.Play();
+        }
+        protected void DeactivateLaser()
+        {
+            Debug.Log("DeactivateLaser");
+            laserBeam.enabled = false;
+            laserBeam.SetPosition(0, muzzlePointTransform.position);
+            laserBeam.SetPosition(1, muzzlePointTransform.position);
+
+            muzzlePointParticlesStart.Stop();
+            muzzlePointParticlesEnd.Stop();
         }
 
         private void HandleMovement(Vector3 moveDirection)
@@ -76,17 +139,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
                 Vector3 limitedVelocity = flatVelocity.normalized * MovementSpeed;
                 characterView.Velocity = new Vector3(limitedVelocity.x, currentVelocity.y, limitedVelocity.z);
             }
-        }
-
-        protected virtual void HandleRotation()
-        {
-            characterModel.xRotation -= rotationHorizontal * characterModel.CharacterScriptableObject.XAxisSenstivity;
-            characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
-            characterModel.yRotation += rotationVertical * characterModel.CharacterScriptableObject.YAxisSenstivity;
-
-            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
-            if (characterDirectionTransform != null)
-                characterDirectionTransform.rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
         }
 
         public abstract void Start();

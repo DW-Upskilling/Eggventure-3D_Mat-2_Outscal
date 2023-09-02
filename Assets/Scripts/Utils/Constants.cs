@@ -14,6 +14,8 @@ namespace Outscal.UnityAdvanced.Mat2.Utils
         public static readonly float DefaultYAxisSenstivity = 1f;
         public static readonly float DefaultMovementSpeed = 1f;
 
+        public static readonly float DefaultLaserDistance = 10f;
+
         public static readonly float DefaultStateCooldown = 1f;
         public static readonly float DefaultMaxStateCooldown = 30f;
         public static readonly float DefaultMinStateCooldown = 10f;
