@@ -13,7 +13,8 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
     {
         private EnemiesToSpawn enemiesToSpawn;
         private EnemiesToKill enemiesToKill;
-        public EnemiesPoolHandler(EnemiesToSpawn enemiesToSpawn, EnemiesToKill enemiesToKill) : base() {
+        public EnemiesPoolHandler(EnemiesToSpawn enemiesToSpawn, EnemiesToKill enemiesToKill) : base()
+        {
             this.enemiesToSpawn = enemiesToSpawn;
             this.enemiesToKill = enemiesToKill;
         }

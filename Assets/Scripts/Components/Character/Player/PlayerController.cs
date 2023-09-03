@@ -48,7 +48,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
             HandleRotation();
 
-            Debug.Log(userInputHandler.mouseLeftClickDown);
             if (userInputHandler.mouseLeftClickDown)
                 ActivateLaser();
             else if (userInputHandler.mouseLeftClickUp)

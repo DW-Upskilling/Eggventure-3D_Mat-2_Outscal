@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
@@ -25,6 +27,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public float MovementSpeed { get { return characterModel.CharacterScriptableObject.MovementSpeed; } }
 
+        private LevelManager levelManager;
+
+        private ExplosionEffectPoolHandler explosionEffectPoolHandler;
+
         private Transform characterDirectionTransform;
         private Transform muzzlePointTransform;
 
@@ -33,10 +39,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         private ParticleSystem muzzlePointParticlesStart;
         private ParticleSystem muzzlePointParticlesEnd;
 
+        List<ParticleSystem> explosions;
+
         public CharacterController(T characterScriptableObject)
         {
             characterModel = CreateCharacterModel(characterScriptableObject);
             characterView = InstantiateCharacterView(characterScriptableObject);
+
+            levelManager = LevelManager.Instance;
+            explosionEffectPoolHandler = levelManager.ExplosionEffectPoolHandler;
 
             characterDirectionTransform = characterView.CharacterDirectionTransform;
             muzzlePointTransform = characterView.MuzzlePointTransform;
@@ -46,6 +57,39 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
             muzzlePointParticlesStart = characterView.MuzzlePointParticlesStart;
             muzzlePointParticlesEnd = characterView.MuzzlePointParticlesEnd;
+
+            explosions = new List<ParticleSystem>();
+        }
+
+        public virtual void FixedUpdate()
+        {
+            float laserDistance = characterModel.CharacterScriptableObject.LaserDistance;
+
+            Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
+            bool cast = Physics.Raycast(ray, out RaycastHit hit, laserDistance);
+
+            Vector3 hitPosition = cast ? hit.point : muzzlePointTransform.position + muzzlePointTransform.forward * laserDistance;
+
+            laserBeam.SetPosition(0, muzzlePointTransform.position);
+            laserBeam.SetPosition(1, hitPosition);
+
+            muzzlePointParticlesEnd.transform.position = hitPosition;
+
+            if (laserBeam.enabled)
+            {
+                ParticleSystem explosion = explosionEffectPoolHandler.GetItem();
+
+                explosion.gameObject.transform.position = muzzlePointParticlesEnd.transform.position;
+                explosion.Play();
+
+                explosions.Add(explosion);
+            }
+
+            explosions.FindAll(e => e.isStopped || e.isPaused || !e.IsAlive()).ForEach(e =>
+            {
+                explosionEffectPoolHandler.ReturnItem(e);
+                explosions.Remove(e);
+            });
         }
 
         public void TakeDamage(Vandalizer vandalizer)
@@ -94,7 +138,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         protected void ActivateLaser()
         {
-            Debug.Log("ActivateLaser");
+            if (laserBeam.enabled) return;
+
             laserBeam.enabled = true;
 
             muzzlePointParticlesStart.Play();
@@ -102,7 +147,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         }
         protected void DeactivateLaser()
         {
-            Debug.Log("DeactivateLaser");
+            if (!laserBeam.enabled) return;
+
             laserBeam.enabled = false;
             laserBeam.SetPosition(0, muzzlePointTransform.position);
             laserBeam.SetPosition(1, muzzlePointTransform.position);

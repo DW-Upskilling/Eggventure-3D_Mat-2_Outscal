@@ -51,7 +51,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
         protected override void FixedUpdate()
         {
+            if (playerController == null)
+                return;
+
             base.FixedUpdate();
+            playerController.FixedUpdate();
         }
 
         public void SetController(PlayerController playerController)

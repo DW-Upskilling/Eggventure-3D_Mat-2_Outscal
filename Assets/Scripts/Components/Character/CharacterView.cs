@@ -38,8 +38,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         protected Rigidbody rb;
         protected LineRenderer lineRenderer;
 
-        public float lineDistance { get; protected set; }
-
         protected virtual void Awake()
         {
             rb = gameObject.GetComponent<Rigidbody>();
@@ -52,8 +50,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             usePosition = false;
             useRotation = false;
             useRigidBody = false;
-
-            lineDistance = Constants.DefaultLaserDistance;
         }
 
         protected virtual void Start()
@@ -100,15 +96,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         protected virtual void FixedUpdate()
         {
-            Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
-            bool cast = Physics.Raycast(ray, out RaycastHit hit, lineDistance);
-
-            Vector3 hitPosition = cast ? hit.point : muzzlePointTransform.position + muzzlePointTransform.forward * lineDistance;
-
-            lineRenderer.SetPosition(0, muzzlePointTransform.position);
-            lineRenderer.SetPosition(1, hitPosition);
-
-            muzzlePointParticlesEnd.transform.position = hitPosition;
+            
         }
 
     }

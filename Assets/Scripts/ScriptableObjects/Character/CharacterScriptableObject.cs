@@ -38,5 +38,9 @@ namespace Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character
         [SerializeField, Range(0f, 12f)]
         private float movementSpeed = Constants.DefaultMovementSpeed;
         public float MovementSpeed { get { return movementSpeed; } }
+
+        [SerializeField, Range(0f, 12f)]
+        private float laserDistance = Constants.DefaultLaserDistance;
+        public float LaserDistance { get { return laserDistance; } }
     }
 }
