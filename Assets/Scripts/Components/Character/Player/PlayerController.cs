@@ -70,6 +70,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         public Transform CameraContainerTransform { set { characterModel.CameraContainerTransform = value; } }
         public UserInputHandler UserInputHandler { set { characterModel.UserInputHandler = value; } }
 
+        protected override void Destroy() { }
+
         protected override PlayerModel CreateCharacterModel(PlayerScriptableObject playerScriptableObject)
         {
             return new PlayerModel(playerScriptableObject);

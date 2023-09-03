@@ -12,14 +12,20 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
     public class ExplosionEffectPoolHandler : ObjectPooling<ParticleSystem>
     {
         private ParticleSystem explosionEffect;
+        private GameObject parent;
 
-        public ExplosionEffectPoolHandler(ParticleSystem explosionEffect) : base() {
+        public ExplosionEffectPoolHandler(ParticleSystem explosionEffect, GameObject parent) : base() {
             this.explosionEffect = explosionEffect;
+
+            this.parent = parent;
         }
 
         protected override ParticleSystem CreateItem()
         {
-            return GameObject.Instantiate<ParticleSystem>(explosionEffect, Vector3.zero, Quaternion.identity);
+            ParticleSystem particleSystem= GameObject.Instantiate<ParticleSystem>(explosionEffect, Vector3.zero, Quaternion.identity);
+            particleSystem.gameObject.transform.SetParent(parent.transform);
+
+            return particleSystem;
         }
     }
 }

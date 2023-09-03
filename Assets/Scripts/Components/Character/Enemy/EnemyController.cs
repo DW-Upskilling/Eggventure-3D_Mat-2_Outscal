@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
-
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyController : CharacterController<EnemyScriptableObject, EnemyView, EnemyModel>
     {
-
+        EnemiesPoolHandler enemiesPoolHandler;
         public EnemyController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
         {
             characterView.SetController(this);
@@ -29,6 +29,21 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             characterView.transform.SetParent(spawnerTransform);
         }
 
+        public void Attack()
+        {
+            ActivateLaser();
+        }
+
+        public void HoldAttack()
+        {
+            DeactivateLaser();
+        }
+
+        public void SetEnemiesPoolHandler(EnemiesPoolHandler enemiesPoolHandler)
+        {
+            this.enemiesPoolHandler = enemiesPoolHandler;
+        }
+
         public override void Start()
         {
             SetActive(true);
@@ -37,6 +52,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         public override void SetActive(bool state)
         {
             characterView.gameObject.SetActive(state);
+        }
+
+        protected override void Destroy() {
+            SetActive(false);
+            enemiesPoolHandler.ReturnItem(this);
         }
 
         protected override void HandleRotation()

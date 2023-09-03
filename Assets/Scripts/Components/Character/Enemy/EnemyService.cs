@@ -62,6 +62,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
                         if (enemyController != null)
                         {
                             enemyController.SetSpawner(spawnManager);
+                            enemyController.SetEnemiesPoolHandler(enemiesPoolHandler);
                             enemiesSpawned++;
                         }
                     }

@@ -4,10 +4,12 @@ using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.Utils;
 
+using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
+
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class CharacterView : View
+    public class CharacterView : View, Damageable
     {
         [SerializeField]
         private Transform characterDirectionTransform;
@@ -97,6 +99,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         protected virtual void FixedUpdate()
         {
             
+        }
+
+        public virtual void TakeDamage(Vandalizer vandalizer)
+        {
+            float damage = vandalizer.GetDamage();
+            Debug.Log(gameObject.name + " damaged for " + damage);
         }
 
     }

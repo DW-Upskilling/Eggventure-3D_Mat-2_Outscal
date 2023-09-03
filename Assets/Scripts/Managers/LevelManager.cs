@@ -19,6 +19,8 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
 
         [SerializeField]
         private ParticleSystem explosionEffectPrefab;
+        [SerializeField]
+        private GameObject effectsContainer;
 
         public int TotalEnemiesToSpawn { get; private set; }
         public int TotalEnemiesToKill { get; private set; }
@@ -35,7 +37,7 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
                     TotalEnemiesToSpawn += enemiesToSpawn.NumberOfEnemies;
             }
 
-            ExplosionEffectPoolHandler = new ExplosionEffectPoolHandler(explosionEffectPrefab);
+            ExplosionEffectPoolHandler = new ExplosionEffectPoolHandler(explosionEffectPrefab, effectsContainer);
         }
 
         public EnemyCharacterTypes[] GetEnemyCharacterTypes()

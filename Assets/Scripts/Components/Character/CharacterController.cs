@@ -10,7 +10,7 @@ using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
-    public abstract class CharacterController<T, U, V> : Controller, Damageable, Vandalizer
+    public abstract class CharacterController<T, U, V> : Controller, Vandalizer
         where T: CharacterScriptableObject
         where U : CharacterView
         where V: CharacterModel<T>
@@ -77,6 +77,13 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
             if (laserBeam.enabled)
             {
+                if (cast)
+                {
+                    Damageable damageable = hit.collider.gameObject.GetComponent<Damageable>();
+                    if (damageable != null)
+                        damageable.TakeDamage((Vandalizer)this);
+                }
+
                 ParticleSystem explosion = explosionEffectPoolHandler.GetItem();
 
                 explosion.gameObject.transform.position = muzzlePointParticlesEnd.transform.position;
@@ -96,6 +103,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         {
             float damage = vandalizer.GetDamage();
             characterModel.Health -= damage;
+            
+            if(characterModel.Health < 1) {
+                Destroy();
+            }
         }
 
         public void DoDamage(Damageable damageable)
@@ -105,7 +116,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public float GetDamage()
         {
-            return 0f;
+            return 100f;
         }
 
         public virtual void Move()
@@ -191,6 +202,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         public abstract void SetActive(bool state);
         public abstract void SetSpawner(SpawnManager spawnManager);
 
+        protected abstract void Destroy();
         protected abstract V CreateCharacterModel(T characterScriptableObject);
         protected abstract U InstantiateCharacterView(T characterScriptableObject);
     }

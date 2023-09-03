@@ -3,6 +3,8 @@ using UnityEngine;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 
+using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
+
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyView : CharacterView
@@ -26,6 +28,13 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         public EnemyController GetEnemyController()
         {
             return enemyController;
+        }
+
+        public override void TakeDamage(Vandalizer vandalizer)
+        {
+            if (enemyController == null)
+                return;
+            enemyController.TakeDamage(vandalizer);
         }
     }
 }

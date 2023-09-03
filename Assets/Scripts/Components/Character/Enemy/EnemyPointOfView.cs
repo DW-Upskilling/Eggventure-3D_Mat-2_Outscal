@@ -15,26 +15,34 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         [SerializeField]
         private EnemyRadar enemyRadar;
 
+        [SerializeField]
+        private Transform muzzlePointTransform;
+
         private int attackId;
         private float cooldown;
 
         private void Awake()
         {
             attackId = Animator.StringToHash("Attack");
+        }
+
+        private void OnEnable()
+        {
             cooldown = Constants.DefaultStateCooldown;
         }
 
         private void Update()
         {
             cooldown -= Time.deltaTime;
-        }
 
-        private void OnTriggerStay(Collider collider)
-        {
-            PlayerView playerView = collider.gameObject.GetComponent<PlayerView>();
-            if(playerView != null && cooldown <= 0)
+            if (cooldown <= 0)
             {
-                stateMachine.SetTrigger(attackId);
+                Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
+                bool cast = Physics.Raycast(ray, out RaycastHit hit, enemyRadar.DistanceInBetween);
+                
+                if (cast)
+                    stateMachine.SetTrigger(attackId);
+
                 cooldown = Constants.DefaultStateCooldown;
             }
         }
