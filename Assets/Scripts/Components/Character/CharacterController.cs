@@ -130,13 +130,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             HandleMovementSpeed();
         }
 
-        public virtual void Move(Vector3 moveDirection)
-        {
-            HandleMovement(moveDirection);
-            HandleMovementSpeed();
-        }
-
-        protected virtual void HandleRotation()
+        public virtual void HandleRotation()
         {
             characterModel.xRotation -= rotationHorizontal * characterModel.CharacterScriptableObject.XAxisSenstivity;
             characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);

@@ -38,13 +38,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         public bool useRigidBody { set; get; }
 
         protected Rigidbody rb;
-        protected LineRenderer lineRenderer;
 
         protected virtual void Awake()
         {
             rb = gameObject.GetComponent<Rigidbody>();
-
-            lineRenderer = characterDirectionTransform.GetComponent<LineRenderer>();
 
             Position = gameObject.transform.position;
             Rotation = gameObject.transform.rotation;

@@ -24,7 +24,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses
             return poolItem.Item;
         }
 
-        public void ReturnItem(T item)
+        public virtual void ReturnItem(T item)
         {
             PoolItem<T> poolItem = pool.Find(e => e.Item.Equals(item));
             if(poolItem != null)

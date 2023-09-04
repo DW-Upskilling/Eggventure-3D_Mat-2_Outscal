@@ -6,6 +6,7 @@ using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Level;
+using Outscal.UnityAdvanced.Mat2.Utils;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
@@ -15,8 +16,6 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         private List<SpawnManager> spawnManagers;
 
         private List<EnemiesPoolHandler> enemiesPool;
-
-        private int enemiesSpawned;
 
         protected override void Initialize()
         {
@@ -48,25 +47,28 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 
         IEnumerator SpawnEnemies()
         {
-            yield return new WaitForSeconds(1f);
-
-            while (enemiesSpawned < 10)
+            while (enemiesPool.Count > 0 && spawnManagers.Count > 0)
             {
-                SpawnManager spawnManager = GetRandomSpawnManager();
-                if(spawnManager != null) {
-                    EnemiesPoolHandler enemiesPoolHandler = GetRandomEnemyPool();
+                yield return new WaitForSeconds(Random.Range(Constants.DefaultMinStateCooldown * .1f, Constants.DefaultMinStateCooldown));
 
-                    if (enemiesPoolHandler != null)
-                    {
-                        EnemyController enemyController = enemiesPoolHandler.GetItem();
-                        if (enemyController != null)
-                        {
-                            enemyController.SetSpawner(spawnManager);
-                            enemyController.SetEnemiesPoolHandler(enemiesPoolHandler);
-                            enemiesSpawned++;
-                        }
-                    }
+                SpawnManager spawnManager = GetRandomSpawnManager();
+                Debug.Log(spawnManager);
+                if (spawnManager == null)
+                    continue;
+
+                EnemiesPoolHandler enemiesPoolHandler = GetRandomEnemyPool();
+                Debug.Log(enemiesPoolHandler);
+                if (enemiesPoolHandler == null)
+                    continue;
+
+                EnemyController enemyController = enemiesPoolHandler.GetItem();
+                if(enemyController != null)
+                {
+                    enemyController.SetSpawner(spawnManager);
+                    enemyController.SetEnemiesPoolHandler(enemiesPoolHandler);
+                    enemyController.SetActive(true);
                 }
+
                 yield return new WaitForSeconds(3f);
             }
 

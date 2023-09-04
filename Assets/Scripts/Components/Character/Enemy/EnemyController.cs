@@ -9,16 +9,41 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyController : CharacterController<EnemyScriptableObject, EnemyView, EnemyModel>
     {
+        Transform characterDirectionTransform;
         EnemiesPoolHandler enemiesPoolHandler;
+
         public EnemyController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
         {
             characterView.SetController(this);
+            characterDirectionTransform = characterView.CharacterDirectionTransform;
         }
         public void SetRandomMovement()
         {
             movementHorizontal = UnityEngine.Random.Range(-1, 1);
             movementVertical = UnityEngine.Random.Range(-1, 1);
             movementSprint = UnityEngine.Random.Range(-1, 1);
+        }
+
+        public void SetRandomRotation()
+        {
+            rotationHorizontal = UnityEngine.Random.Range(-1f, 1f);
+            rotationVertical = UnityEngine.Random.Range(-1f, 1f);
+        }
+
+        public void SetMovement(Vector3 moveDirection)
+        {
+            SetRandomMovement();
+            movementVertical = Mathf.Clamp(Vector3.Dot(moveDirection, characterDirectionTransform.forward), -1f, 1f);
+            movementHorizontal = Mathf.Clamp(Vector3.Dot(moveDirection, characterDirectionTransform.right), -1f, 1f);
+        }
+
+        public void SetRotation(Vector3 moveDirection)
+        {
+            SetRandomRotation();
+
+            rotationHorizontal = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+
+            rotationVertical = Mathf.Atan2(moveDirection.y, moveDirection.magnitude) * Mathf.Rad2Deg;
         }
 
         public override void SetSpawner(SpawnManager spawnManager)
@@ -54,14 +79,25 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             characterView.gameObject.SetActive(state);
         }
 
-        protected override void Destroy() {
-            SetActive(false);
-            enemiesPoolHandler.ReturnItem(this);
+        public override void HandleRotation()
+        {
+            base.HandleRotation();
+
+            EnemyPointOfView EnemyPointOfView = characterView.EnemyPointOfView;
+            EnemyRadar EnemyRadar = characterView.EnemyRadar;
+
+            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
+
+            if (characterDirectionTransform != null) {
+                if (EnemyPointOfView != null)
+                    EnemyPointOfView.transform.rotation = characterDirectionTransform.rotation;
+                if (EnemyRadar != null)
+                    EnemyRadar.transform.rotation = characterDirectionTransform.rotation;
+            }
         }
 
-        protected override void HandleRotation()
-        {
-            
+        protected override void Destroy() {
+            enemiesPoolHandler.ReturnItem(this);
         }
 
         protected override EnemyModel CreateCharacterModel(EnemyScriptableObject enemyScriptableObject)

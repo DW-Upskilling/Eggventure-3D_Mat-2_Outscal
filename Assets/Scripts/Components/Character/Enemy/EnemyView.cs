@@ -9,16 +9,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyView : CharacterView
     {
+        [SerializeField]
+        private EnemyPointOfView enemyPointOfView;
+        public EnemyPointOfView EnemyPointOfView { get { return enemyPointOfView; } }
+
+        [SerializeField]
+        private EnemyRadar enemyRadar;
+        public EnemyRadar EnemyRadar { get { return enemyRadar; } }
+
         private EnemyController enemyController;
-
-        protected override void Start()
-        {
-            if (enemyController == null)
-                return;
-
-            enemyController.Start();
-            base.Start();
-        }
 
         public void SetController(EnemyController enemyController)
         {

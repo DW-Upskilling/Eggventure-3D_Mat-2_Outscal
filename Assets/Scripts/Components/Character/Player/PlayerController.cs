@@ -81,7 +81,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             return GameObject.Instantiate<PlayerView>(playerScriptableObject.PlayerPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        protected override void HandleRotation()
+        public override void HandleRotation()
         {
             base.HandleRotation();
 

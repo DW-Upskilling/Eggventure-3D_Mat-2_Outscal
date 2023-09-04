@@ -29,8 +29,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy.EnemyBehaviour
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             
             Vector3 moveDirection = (trackingGameObject.transform.position - animator.transform.position).normalized;
+            enemyController.SetMovement(moveDirection);
+            enemyController.SetRotation(moveDirection);
 
-            enemyController.Move(moveDirection);
+            enemyController.HandleRotation();
+
+            enemyController.Move();
         }
     }
 }

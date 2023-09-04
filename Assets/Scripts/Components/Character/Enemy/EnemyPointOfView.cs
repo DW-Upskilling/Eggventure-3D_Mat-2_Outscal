@@ -39,7 +39,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             {
                 Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
                 bool cast = Physics.Raycast(ray, out RaycastHit hit, enemyRadar.DistanceInBetween);
-                
+
                 if (cast)
                     stateMachine.SetTrigger(attackId);
 
