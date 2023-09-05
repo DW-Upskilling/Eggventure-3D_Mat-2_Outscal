@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 0}
   enemyRadar: {fileID: 6962200840124464048}
+  muzzlePointTransform: {fileID: 0}
 --- !u!1 &6237935365508042179
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +213,8 @@ MonoBehaviour:
   muzzlePointTransform: {fileID: 7254841999601895218}
   muzzlePointParticlesStart: {fileID: 5802271947878078241}
   muzzlePointParticlesEnd: {fileID: 1348659466890488016}
+  enemyPointOfView: {fileID: 8358596883858993651}
+  enemyRadar: {fileID: 6962200840124464048}
 --- !u!198 &5802271947878078241 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6020876303874273558, guid: a97fca9ac14b3c743ada6117ae56a59a, type: 3}

@@ -12,10 +12,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         Transform characterDirectionTransform;
         EnemiesPoolHandler enemiesPoolHandler;
 
+        public bool CanChase { get { return characterModel.CanChase; } }
+
         public EnemyController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
         {
             characterView.SetController(this);
             characterDirectionTransform = characterView.CharacterDirectionTransform;
+
+            if (enemyScriptableObject.EnemyMode == EnemyModes.Aggressive)
+                characterModel.CanChase = true;
         }
         public void SetRandomMovement()
         {

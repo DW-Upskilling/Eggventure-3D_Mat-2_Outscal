@@ -52,12 +52,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
                 yield return new WaitForSeconds(Random.Range(Constants.DefaultMinStateCooldown * .1f, Constants.DefaultMinStateCooldown));
 
                 SpawnManager spawnManager = GetRandomSpawnManager();
-                Debug.Log(spawnManager);
                 if (spawnManager == null)
                     continue;
 
                 EnemiesPoolHandler enemiesPoolHandler = GetRandomEnemyPool();
-                Debug.Log(enemiesPoolHandler);
                 if (enemiesPoolHandler == null)
                     continue;
 

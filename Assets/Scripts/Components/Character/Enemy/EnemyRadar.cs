@@ -18,6 +18,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         public GameObject ColliderGameObject { get; set; }
         public float DistanceInBetween { get; private set; }
 
+        private EnemyController enemyController;
+
         private int chaseId;
         private float cooldown;
 
@@ -25,8 +27,14 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             if (enemyPointOfView == null)
                 throw new UnassignedReferenceException("Assign enemyPointOfView gameObject");
+
             chaseId = Animator.StringToHash("Chase");
             cooldown = Constants.DefaultStateCooldown;
+        }
+
+        private void Start()
+        {
+            enemyController = gameObject.GetComponentInParent<EnemyView>().GetEnemyController();
         }
 
         private void Update()
@@ -37,7 +45,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         private void OnTriggerStay(Collider collider)
         {
             Damageable damageable = collider.gameObject.GetComponent<Damageable>();
-            if(damageable != null && cooldown <= 0)
+            if(damageable != null && cooldown <= 0 && enemyController.CanChase)
             {
                 ColliderGameObject = collider.gameObject;
 
