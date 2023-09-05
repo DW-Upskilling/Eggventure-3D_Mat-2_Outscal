@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Utils;
-using Outscal.UnityAdvanced.Mat2.Components.Character.Player;
+using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
@@ -16,6 +16,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         private EnemyPointOfView enemyPointOfView;
 
         public GameObject ColliderGameObject { get; set; }
+        public float DistanceInBetween { get; private set; }
+
+        private EnemyController enemyController;
 
         private int chaseId;
         private float cooldown;
@@ -24,8 +27,14 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
         {
             if (enemyPointOfView == null)
                 throw new UnassignedReferenceException("Assign enemyPointOfView gameObject");
+
             chaseId = Animator.StringToHash("Chase");
             cooldown = Constants.DefaultStateCooldown;
+        }
+
+        private void Start()
+        {
+            enemyController = gameObject.GetComponentInParent<EnemyView>().GetEnemyController();
         }
 
         private void Update()
@@ -35,13 +44,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 
         private void OnTriggerStay(Collider collider)
         {
-            PlayerView playerView = collider.gameObject.GetComponent<PlayerView>();
-            if(playerView != null && cooldown <= 0)
+            Damageable damageable = collider.gameObject.GetComponent<Damageable>();
+            if(damageable != null && cooldown <= 0 && enemyController.CanChase)
             {
                 ColliderGameObject = collider.gameObject;
 
                 stateMachine.SetTrigger(chaseId);
                 enemyPointOfView.gameObject.SetActive(true);
+
+                DistanceInBetween = Vector3.Distance(transform.position, ColliderGameObject.transform.position);
 
                 cooldown = Constants.DefaultStateCooldown;
             }
@@ -53,6 +64,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             {
                 enemyPointOfView.gameObject.SetActive(false);
 
+                DistanceInBetween = -1;
+                
                 cooldown = Constants.DefaultStateCooldown;
             }
         }

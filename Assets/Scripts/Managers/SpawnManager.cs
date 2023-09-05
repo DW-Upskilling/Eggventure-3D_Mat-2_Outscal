@@ -16,7 +16,7 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
             objectsEntry = new List<Collider>();
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             CharacterView characterView = other.gameObject.GetComponent<CharacterView>();
             if (characterView != null)
@@ -28,6 +28,15 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
             CharacterView characterView = other.gameObject.GetComponent<CharacterView>();
             if (characterView != null)
                 objectsEntry.Remove(other);
+
+            // Removing the objects if they were inactive
+            List<Collider> objectsInactive = new List<Collider>();
+            objectsEntry.ForEach(e => {
+                if (e.gameObject.activeSelf == false)
+                    objectsInactive.Add(e);
+             });
+
+            objectsInactive.ForEach(e => { objectsEntry.Remove(e); });
         }
     }
 }

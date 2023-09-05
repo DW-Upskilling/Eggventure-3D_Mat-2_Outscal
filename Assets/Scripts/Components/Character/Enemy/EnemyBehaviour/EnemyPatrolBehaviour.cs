@@ -38,10 +38,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy.EnemyBehaviour
             if (movementInterval <= 0)
             {
                 enemyController.SetRandomMovement();
+                enemyController.SetRandomRotation();
                 movementInterval = Random.Range(Constants.DefaultMinStateCooldown, Constants.DefaultMaxStateCooldown);
             }
 
             enemyController.Move();
+            enemyController.HandleRotation();
 
             timeInterval -= Time.deltaTime;
             if (timeInterval <= 0)

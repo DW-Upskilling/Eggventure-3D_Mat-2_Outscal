@@ -67,8 +67,17 @@ PrefabInstance:
       propertyPath: stateMachine
       value: 
       objectReference: {fileID: 2618627068475224905}
+    - target: {fileID: 8358596883858993651, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+      propertyPath: muzzlePointTransform
+      value: 
+      objectReference: {fileID: 3935749155161269831}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+--- !u!4 &3935749155161269831 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7254841999601895218, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}
+  m_PrefabInstance: {fileID: 5922505490167062901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8653639153270461784 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3037415901175247917, guid: 1ca77167a4aa5f544b51af36b9411ccd, type: 3}

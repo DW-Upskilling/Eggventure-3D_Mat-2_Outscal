@@ -13,7 +13,9 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
     {
         private EnemiesToSpawn enemiesToSpawn;
         private EnemiesToKill enemiesToKill;
-        public EnemiesPoolHandler(EnemiesToSpawn enemiesToSpawn, EnemiesToKill enemiesToKill) : base() {
+
+        public EnemiesPoolHandler(EnemiesToSpawn enemiesToSpawn, EnemiesToKill enemiesToKill) : base()
+        {
             this.enemiesToSpawn = enemiesToSpawn;
             this.enemiesToKill = enemiesToKill;
         }
@@ -27,10 +29,16 @@ namespace Outscal.UnityAdvanced.Mat2.Handlers
 
         public override EnemyController GetItem()
         {
-            if (pool.FindAll(e => e.IsItemAvailable()).Count >= enemiesToSpawn.MaxEnemiesInScene)
+            if (pool.FindAll(e => !e.IsItemAvailable()).Count >= enemiesToSpawn.MaxEnemiesInScene)
                 return null;
 
             return base.GetItem();
+        }
+
+        public override void ReturnItem(EnemyController enemyController)
+        {
+            base.ReturnItem(enemyController);
+            enemyController.SetActive(false);
         }
 
         protected override EnemyController CreateItem()

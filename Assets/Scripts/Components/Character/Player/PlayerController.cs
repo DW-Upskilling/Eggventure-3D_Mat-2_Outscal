@@ -47,6 +47,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             rotationVertical = userInputHandler.mouseX;
 
             HandleRotation();
+
+            if (userInputHandler.mouseLeftClickDown)
+                ActivateLaser();
+            else if (userInputHandler.mouseLeftClickUp)
+                DeactivateLaser();
         }
 
         public void UpdateCameraPosition()
@@ -65,6 +70,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         public Transform CameraContainerTransform { set { characterModel.CameraContainerTransform = value; } }
         public UserInputHandler UserInputHandler { set { characterModel.UserInputHandler = value; } }
 
+        protected override void Destroy() { }
+
         protected override PlayerModel CreateCharacterModel(PlayerScriptableObject playerScriptableObject)
         {
             return new PlayerModel(playerScriptableObject);
@@ -74,7 +81,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             return GameObject.Instantiate<PlayerView>(playerScriptableObject.PlayerPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        protected override void HandleRotation()
+        public override void HandleRotation()
         {
             base.HandleRotation();
 

@@ -1,12 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 
+using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
+
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
-    public abstract class CharacterController<T, U, V> : Controller
+    public abstract class CharacterController<T, U, V> : Controller, Vandalizer
         where T: CharacterScriptableObject
         where U : CharacterView
         where V: CharacterModel<T>
@@ -23,16 +27,100 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public float MovementSpeed { get { return characterModel.CharacterScriptableObject.MovementSpeed; } }
 
+        private LevelManager levelManager;
+
+        private ExplosionEffectPoolHandler explosionEffectPoolHandler;
+
+        private Transform characterDirectionTransform;
+        private Transform muzzlePointTransform;
+
+        private LineRenderer laserBeam;
+
+        private ParticleSystem muzzlePointParticlesStart;
+        private ParticleSystem muzzlePointParticlesEnd;
+
+        List<ParticleSystem> explosions;
+
         public CharacterController(T characterScriptableObject)
         {
             characterModel = CreateCharacterModel(characterScriptableObject);
             characterView = InstantiateCharacterView(characterScriptableObject);
+
+            levelManager = LevelManager.Instance;
+            explosionEffectPoolHandler = levelManager.ExplosionEffectPoolHandler;
+
+            characterDirectionTransform = characterView.CharacterDirectionTransform;
+            muzzlePointTransform = characterView.MuzzlePointTransform;
+
+            laserBeam = characterDirectionTransform.GetComponent<LineRenderer>();
+            laserBeam.enabled = false;
+
+            muzzlePointParticlesStart = characterView.MuzzlePointParticlesStart;
+            muzzlePointParticlesEnd = characterView.MuzzlePointParticlesEnd;
+
+            explosions = new List<ParticleSystem>();
+        }
+
+        public virtual void FixedUpdate()
+        {
+            float laserDistance = characterModel.CharacterScriptableObject.LaserDistance;
+
+            Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
+            bool cast = Physics.Raycast(ray, out RaycastHit hit, laserDistance);
+
+            Vector3 hitPosition = cast ? hit.point : muzzlePointTransform.position + muzzlePointTransform.forward * laserDistance;
+
+            laserBeam.SetPosition(0, muzzlePointTransform.position);
+            laserBeam.SetPosition(1, hitPosition);
+
+            muzzlePointParticlesEnd.transform.position = hitPosition;
+
+            if (laserBeam.enabled)
+            {
+                if (cast)
+                {
+                    Damageable damageable = hit.collider.gameObject.GetComponent<Damageable>();
+                    if (damageable != null)
+                        damageable.TakeDamage((Vandalizer)this);
+                }
+
+                ParticleSystem explosion = explosionEffectPoolHandler.GetItem();
+
+                explosion.gameObject.transform.position = muzzlePointParticlesEnd.transform.position;
+                explosion.Play();
+
+                explosions.Add(explosion);
+            }
+
+            explosions.FindAll(e => e.isStopped || e.isPaused || !e.IsAlive()).ForEach(e =>
+            {
+                explosionEffectPoolHandler.ReturnItem(e);
+                explosions.Remove(e);
+            });
+        }
+
+        public void TakeDamage(Vandalizer vandalizer)
+        {
+            float damage = vandalizer.GetDamage();
+            characterModel.Health -= damage;
+            
+            if(characterModel.Health < 1) {
+                Destroy();
+            }
+        }
+
+        public void DoDamage(Damageable damageable)
+        {
+            damageable.TakeDamage((Vandalizer)this);
+        }
+
+        public float GetDamage()
+        {
+            return 100f;
         }
 
         public virtual void Move()
         {
-            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
-
             Vector3 moveForwardDirection = characterDirectionTransform.forward * movementVertical;
             Vector3 moveRightDirection = characterDirectionTransform.right * movementHorizontal;
 
@@ -42,10 +130,36 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             HandleMovementSpeed();
         }
 
-        public virtual void Move(Vector3 moveDirection)
+        public virtual void HandleRotation()
         {
-            HandleMovement(moveDirection);
-            HandleMovementSpeed();
+            characterModel.xRotation -= rotationHorizontal * characterModel.CharacterScriptableObject.XAxisSenstivity;
+            characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
+            characterModel.yRotation += rotationVertical * characterModel.CharacterScriptableObject.YAxisSenstivity;
+
+            Quaternion rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
+            characterDirectionTransform.rotation = rotation;
+            muzzlePointTransform.rotation = rotation;
+        }
+
+        protected void ActivateLaser()
+        {
+            if (laserBeam.enabled) return;
+
+            laserBeam.enabled = true;
+
+            muzzlePointParticlesStart.Play();
+            muzzlePointParticlesEnd.Play();
+        }
+        protected void DeactivateLaser()
+        {
+            if (!laserBeam.enabled) return;
+
+            laserBeam.enabled = false;
+            laserBeam.SetPosition(0, muzzlePointTransform.position);
+            laserBeam.SetPosition(1, muzzlePointTransform.position);
+
+            muzzlePointParticlesStart.Stop();
+            muzzlePointParticlesEnd.Stop();
         }
 
         private void HandleMovement(Vector3 moveDirection)
@@ -78,21 +192,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             }
         }
 
-        protected virtual void HandleRotation()
-        {
-            characterModel.xRotation -= rotationHorizontal * characterModel.CharacterScriptableObject.XAxisSenstivity;
-            characterModel.xRotation = Mathf.Clamp(characterModel.xRotation, -90f, 90f);
-            characterModel.yRotation += rotationVertical * characterModel.CharacterScriptableObject.YAxisSenstivity;
-
-            Transform characterDirectionTransform = characterView.CharacterDirectionTransform;
-            if (characterDirectionTransform != null)
-                characterDirectionTransform.rotation = Quaternion.Euler(characterModel.xRotation, characterModel.yRotation, 0);
-        }
-
         public abstract void Start();
         public abstract void SetActive(bool state);
         public abstract void SetSpawner(SpawnManager spawnManager);
 
+        protected abstract void Destroy();
         protected abstract V CreateCharacterModel(T characterScriptableObject);
         protected abstract U InstantiateCharacterView(T characterScriptableObject);
     }

@@ -21,7 +21,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Observer
             ObserverQueue -= listener;
         }
 
-        protected void TriggerEvent(T t)
+        protected virtual void TriggerEvent(T t)
         {
             ObserverQueue?.Invoke(t);
         }

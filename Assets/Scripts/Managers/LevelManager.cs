@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Handlers;
+using Outscal.UnityAdvanced.Mat2.Utils;
 using Outscal.UnityAdvanced.Mat2.Components.Character.Enemy;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.Singleton;
 
@@ -15,8 +17,15 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
         [SerializeField]
         private LevelScriptableObject levelScriptableObject;
 
+        [SerializeField]
+        private ParticleSystem explosionEffectPrefab;
+        [SerializeField]
+        private GameObject effectsContainer;
+
         public int TotalEnemiesToSpawn { get; private set; }
         public int TotalEnemiesToKill { get; private set; }
+
+        public ExplosionEffectPoolHandler ExplosionEffectPoolHandler { get; private set; }
 
         protected override void Initialize()
         {
@@ -27,6 +36,8 @@ namespace Outscal.UnityAdvanced.Mat2.Managers
                 if (enemiesToSpawn != null)
                     TotalEnemiesToSpawn += enemiesToSpawn.NumberOfEnemies;
             }
+
+            ExplosionEffectPoolHandler = new ExplosionEffectPoolHandler(explosionEffectPrefab, effectsContainer);
         }
 
         public EnemyCharacterTypes[] GetEnemyCharacterTypes()
