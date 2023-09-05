@@ -6,7 +6,8 @@ using Outscal.UnityAdvanced.Mat2.GenericClasses.Singleton;
 namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Observer
 {
     // SceneObserver is used when required on GameObjects that get destroyed once scene changes
-    public abstract class SceneObserver<T> : SceneSingleton<SceneObserver<T>>
+    public abstract class SceneObserver<S, T> : SceneSingleton<S>
+        where S: SceneObserver<S, T>
     {
         private static event Action<T> ObserverQueue;
 
@@ -20,7 +21,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Observer
             ObserverQueue -= listener;
         }
 
-        protected virtual void TriggerEvent(T t)
+        protected void TriggerEvent(T t)
         {
             ObserverQueue?.Invoke(t);
         }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.Components.Spawn;
 using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Enemy;
 
@@ -9,8 +9,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
 {
     public class EnemyController : CharacterController<EnemyScriptableObject, EnemyView, EnemyModel>
     {
-        Transform characterDirectionTransform;
-        EnemiesPoolHandler enemiesPoolHandler;
+        private Transform characterDirectionTransform;
+        private EnemiesPoolHandler enemiesPoolHandler;
 
         public bool CanChase { get { return characterModel.CanChase; } }
 
@@ -51,7 +51,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             rotationVertical = Mathf.Atan2(moveDirection.y, moveDirection.magnitude) * Mathf.Rad2Deg;
         }
 
-        public override void SetSpawner(SpawnManager spawnManager)
+        public override void SetSpawner(SpawnController spawnManager)
         {
             Transform spawnerTransform = spawnManager.gameObject.transform;
 

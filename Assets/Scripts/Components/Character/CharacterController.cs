@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Handlers;
+using Outscal.UnityAdvanced.Mat2.Events;
 using Outscal.UnityAdvanced.Mat2.Managers;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
-
+using Outscal.UnityAdvanced.Mat2.Components.Spawn;
 using Outscal.UnityAdvanced.Mat2.Utils.Interfaces;
+using Outscal.UnityAdvanced.Mat2.Components.Character.Enemy;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character
 {
@@ -39,7 +41,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         private ParticleSystem muzzlePointParticlesStart;
         private ParticleSystem muzzlePointParticlesEnd;
 
-        List<ParticleSystem> explosions;
+        private List<ParticleSystem> explosions;
+
+        private KillEventHandler killEventHandler;
+        private DeathEventHandler deathEventHandler;
 
         public CharacterController(T characterScriptableObject)
         {
@@ -59,6 +64,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             muzzlePointParticlesEnd = characterView.MuzzlePointParticlesEnd;
 
             explosions = new List<ParticleSystem>();
+
+            killEventHandler = KillEventHandler.Instance;
+            deathEventHandler = DeathEventHandler.Instance;
         }
 
         public virtual void FixedUpdate()
@@ -105,6 +113,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
             characterModel.Health -= damage;
             
             if(characterModel.Health < 1) {
+                switch (characterModel.CharacterScriptableObject.CharacterType)
+                {
+                    case CharacterTypes.Enemy:
+                        killEventHandler.TriggerKillEvent(characterView);
+                        break;
+                    case CharacterTypes.Player:
+                        deathEventHandler.TriggerDeathEvent(characterView);
+                        break;
+                }
                 Destroy();
             }
         }
@@ -194,7 +211,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public abstract void Start();
         public abstract void SetActive(bool state);
-        public abstract void SetSpawner(SpawnManager spawnManager);
+        public abstract void SetSpawner(SpawnController spawnManager);
 
         protected abstract void Destroy();
         protected abstract V CreateCharacterModel(T characterScriptableObject);

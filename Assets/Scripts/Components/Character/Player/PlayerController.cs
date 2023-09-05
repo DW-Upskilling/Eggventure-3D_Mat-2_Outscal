@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Events;
 using Outscal.UnityAdvanced.Mat2.Handlers;
-using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.Components.Spawn;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Player;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 {
     public class PlayerController : CharacterController<PlayerScriptableObject, PlayerView, PlayerModel>
     {
+        private EnergyUsageEventHandler energyUsageEventHandler;
+
         public PlayerController(PlayerScriptableObject playerScriptableObject) : base(playerScriptableObject)
         {
             characterView.SetController(this);
@@ -21,10 +24,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
         public override void SetActive(bool state)
         {
+            energyUsageEventHandler = EnergyUsageEventHandler.Instance;
             characterView.gameObject.SetActive(state);
         }
 
-        public override void SetSpawner(SpawnManager spawnManager)
+        public override void SetSpawner(SpawnController spawnManager)
         {
             Transform spawnerTransform = spawnManager.gameObject.transform;
 
@@ -49,7 +53,10 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             HandleRotation();
 
             if (userInputHandler.mouseLeftClickDown)
+            {
+                energyUsageEventHandler.TriggerEnergyUsagesEvent(characterView);
                 ActivateLaser();
+            }
             else if (userInputHandler.mouseLeftClickUp)
                 DeactivateLaser();
         }

@@ -21,5 +21,9 @@ namespace Outscal.UnityAdvanced.Mat2.Utils
         public static readonly float DefaultMinStateCooldown = 10f;
 
         public static readonly int DefaultIntegerValue = 10;
+
+        public static readonly int DefaultDeathAchievementMultiple = 1;
+        public static readonly int DefaultKillAchievementMultiple = 3;
+        public static readonly int DefaultEnergyUsageAchievementMultiple = 10;
     }
 }
