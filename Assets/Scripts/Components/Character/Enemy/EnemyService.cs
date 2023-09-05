@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Outscal.UnityAdvanced.Mat2.Components.Spawn;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.Handlers;
 using Outscal.UnityAdvanced.Mat2.Managers;
@@ -13,7 +14,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
     public class EnemyService : Service<EnemyService>
     {
         [SerializeField]
-        private List<SpawnManager> spawnManagers;
+        private List<SpawnController> spawnManagers;
 
         private List<EnemiesPoolHandler> enemiesPool;
 
@@ -51,7 +52,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             {
                 yield return new WaitForSeconds(Random.Range(Constants.DefaultMinStateCooldown * .1f, Constants.DefaultMinStateCooldown));
 
-                SpawnManager spawnManager = GetRandomSpawnManager();
+                SpawnController spawnManager = GetRandomSpawnManager();
                 if (spawnManager == null)
                     continue;
 
@@ -73,9 +74,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Enemy
             yield return null;
         }
 
-        private SpawnManager GetRandomSpawnManager()
+        private SpawnController GetRandomSpawnManager()
         {
-            List<SpawnManager> availableSpawners = spawnManagers.FindAll(e => e.IsOccupied == false);
+            List<SpawnController> availableSpawners = spawnManagers.FindAll(e => e.IsOccupied == false);
             if (availableSpawners.Count < 1)
                 return null;
 

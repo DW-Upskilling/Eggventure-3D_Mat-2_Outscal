@@ -3,9 +3,9 @@ using UnityEngine;
 
 using Outscal.UnityAdvanced.Mat2.Components.Character;
 
-namespace Outscal.UnityAdvanced.Mat2.Managers
+namespace Outscal.UnityAdvanced.Mat2.Components.Spawn
 {
-    public class SpawnManager : MonoBehaviour
+    public class SpawnController : MonoBehaviour
     {
         public bool IsOccupied { get { return objectsEntry.Count > 0; } }
 

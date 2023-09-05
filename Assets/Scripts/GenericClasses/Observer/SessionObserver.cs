@@ -7,7 +7,8 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Observer
 {
     // SessionObsever is used when required when observer required for entire session
     // Example: Achievement System
-    public abstract class SessionObserver<T> : SessionSingleton<SessionObserver<T>>
+    public abstract class SessionObserver<S, T> : SessionSingleton<S>
+        where S : SessionObserver<S, T>
     {
         private static event Action<T> ObserverQueue;
 
@@ -21,7 +22,7 @@ namespace Outscal.UnityAdvanced.Mat2.GenericClasses.Observer
             ObserverQueue -= listener;
         }
 
-        protected virtual void TriggerEvent(T t)
+        protected void TriggerEvent(T t)
         {
             ObserverQueue?.Invoke(t);
         }

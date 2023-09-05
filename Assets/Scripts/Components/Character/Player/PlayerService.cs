@@ -5,7 +5,7 @@ using UnityEngine;
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Player;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
 using Outscal.UnityAdvanced.Mat2.Handlers;
-using Outscal.UnityAdvanced.Mat2.Managers;
+using Outscal.UnityAdvanced.Mat2.Components.Spawn;
 
 namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 {
@@ -18,7 +18,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
         private PlayerScriptableObject playerScriptableObject;
 
         [SerializeField]
-        private List<SpawnManager> spawnManagers;
+        private List<SpawnController> spawnManagers;
 
         PlayerController playerController;
         UserInputHandler userInputHandler;
@@ -47,9 +47,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             userInputHandler.Update();
         }
 
-        private SpawnManager GetRandomSpawnManager()
+        private SpawnController GetRandomSpawnManager()
         {
-            List<SpawnManager> availableSpawners = spawnManagers.FindAll(e => e.IsOccupied == false);
+            List<SpawnController> availableSpawners = spawnManagers.FindAll(e => e.IsOccupied == false);
             if (availableSpawners.Count < 1)
                 return null;
 
