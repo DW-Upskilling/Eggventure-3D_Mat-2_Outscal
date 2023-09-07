@@ -71,6 +71,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
         public virtual void FixedUpdate()
         {
+            if (characterModel.Energy <= 0)
+                DeactivateLaser();
+
             float laserDistance = characterModel.CharacterScriptableObject.LaserDistance;
 
             Ray ray = new Ray(muzzlePointTransform.position, muzzlePointTransform.forward);
@@ -85,6 +88,8 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
 
             if (laserBeam.enabled)
             {
+                characterModel.Energy -= 1f;
+
                 if (cast)
                 {
                     Damageable damageable = hit.collider.gameObject.GetComponent<Damageable>();
@@ -105,6 +110,15 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
                 explosionEffectPoolHandler.ReturnItem(e);
                 explosions.Remove(e);
             });
+
+            float maxHealth = characterModel.CharacterScriptableObject.Health;
+            float maxEnergy = characterModel.CharacterScriptableObject.Energy;
+
+            float health = characterModel.Health + characterModel.HealthRegeneration * Time.fixedDeltaTime;
+            float energy = characterModel.Energy + characterModel.EnergyRegeneration * Time.fixedDeltaTime;
+
+            characterModel.Health = Mathf.Clamp(health, 0f, maxHealth);
+            characterModel.Energy = Mathf.Clamp(energy, 0f, maxEnergy);
         }
 
         public void TakeDamage(Vandalizer vandalizer)
@@ -161,6 +175,7 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character
         protected void ActivateLaser()
         {
             if (laserBeam.enabled) return;
+            if (characterModel.Energy <= 0) return;
 
             laserBeam.enabled = true;
 

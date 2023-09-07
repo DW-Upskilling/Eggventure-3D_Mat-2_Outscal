@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Outscal.UnityAdvanced.Mat2.ScriptableObjects.Character.Player;
 using Outscal.UnityAdvanced.Mat2.GenericClasses.ModelViewController;
@@ -16,6 +17,11 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
         [SerializeField]
         private PlayerScriptableObject playerScriptableObject;
+
+        [SerializeField]
+        private Slider healthBar;
+        [SerializeField]
+        private Slider energyBar;
 
         [SerializeField]
         private List<SpawnController> spawnManagers;
@@ -39,6 +45,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 
         protected override void Start()
         {
+            playerController.HealthBar = healthBar;
+            playerController.EnergyBar = energyBar;
+
             playerController.SetActive(true);
         }
 
