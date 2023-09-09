@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Outscal.UnityAdvanced.Mat2.Events;
 using Outscal.UnityAdvanced.Mat2.Handlers;
@@ -10,6 +11,9 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
 {
     public class PlayerController : CharacterController<PlayerScriptableObject, PlayerView, PlayerModel>
     {
+        public Slider HealthBar { get; set; }
+        public Slider EnergyBar { get; set; }
+
         private EnergyUsageEventHandler energyUsageEventHandler;
 
         public PlayerController(PlayerScriptableObject playerScriptableObject) : base(playerScriptableObject)
@@ -59,6 +63,12 @@ namespace Outscal.UnityAdvanced.Mat2.Components.Character.Player
             }
             else if (userInputHandler.mouseLeftClickUp)
                 DeactivateLaser();
+        }
+
+        public void RefreshUI()
+        {
+            HealthBar.value = (characterModel.Health / characterModel.CharacterScriptableObject.Health) * 100;
+            EnergyBar.value = (characterModel.Energy / characterModel.CharacterScriptableObject.Energy) * 100;
         }
 
         public void UpdateCameraPosition()
