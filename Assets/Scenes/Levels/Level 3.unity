@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f75496d42a14ae49991588218abf557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelScriptableObject: {fileID: 11400000, guid: 4f4e05ce254c17c48b7654990b6fa9c8, type: 2}
+  levelScriptableObject: {fileID: 11400000, guid: b49f908a921f0f146a9114efa9b7797d, type: 2}
   explosionEffectPrefab: {fileID: 8816361855486374475, guid: c6760baa701042541b7956b692e309bc, type: 3}
   effectsContainer: {fileID: 1707144515}
 --- !u!114 &577178062
